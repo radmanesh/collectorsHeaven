@@ -1,0 +1,21 @@
+# Application dependencies
+
+require:
+    - play
+    - play -> docviewer
+    - play -> secure
+    - play -> deadbolt 1.5.4
+    - play-codeborne -> cms 2.0
+
+repositories:
+    - playCustomModules:
+        type:       local
+        artifact:   ${application.path}/modules/[module]-[revision]/
+        contains:
+          - local -> *
+
+    - codeborne-modules-jars:
+        type: http
+        artifact: https://repo.codeborne.com/play-[module]/[module]-[revision].zip
+        contains:
+            - play-codeborne -> *
