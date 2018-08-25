@@ -1,0 +1,64 @@
+#{extends 'Secure/layout.html' /}
+#{set 'title'}Login #{/set}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card-group">
+      <div class="card p-4">
+        <div class="card-body">
+          <h1>&{'secure.title'}</h1>
+          <p class="text-muted">&{'secure.signinInfo'}</p>
+          #{form @authenticate()}
+
+              #{if flash.error}
+                  <p class="error">
+                      ${messages.get(flash.error)}
+                  </p>
+              #{/if}
+              #{if flash.success}
+                  <p class="success">
+                      ${messages.get(flash.success)}
+                  </p>
+              #{/if}
+
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-fw fa-user"></i></span>
+            </div>
+            <input type="text" name="username" id="username" value="${flash.username}" class="form-control" placeholder="&{'secure.username'}">
+          </div>
+          <div class="input-group mb-4">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-fw fa-lock"></i></span>
+            </div>
+            <input type="password" class="form-control" name="password" id="password" value="" placeholder="&{'secure.password'}">
+          </div>
+          <div class="form-group">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox"  name="remember" id="remember" value="true" ${flash.remember ? 'checked="true"' : ''} >
+              <label class="form-check-label" for="remember">&{'secure.remember'}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <input type="submit" class="btn btn-primary px-4" id="signin" value="&{'secure.signin'}" />
+            </div>
+            <div class="col-6 text-right">
+              <button type="button" class="btn btn-link px-0">&{'secure.forgotPassword'}</button>
+            </div>
+          </div>
+          #{/form}
+
+        </div>
+      </div>
+      <div class="card text-white bg-primary py-5 d-md-down-none" style="width:44%">
+        <div class="card-body text-center">
+          <div>
+            <h2>&{'secure.login.signup'}</h2>
+            <p>&{'secure.login.signupText'}</p>
+            <a class="btn btn-primary active mt-3" href="@{Registration.register()}">&{'secure.login.signupBtn'}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

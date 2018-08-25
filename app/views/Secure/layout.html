@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="${lang}">
+<head>
+<meta charset="${_response_encoding}">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="BongaMonga">
+<meta name="author" content="Arman Radmanesh <radmanesh@gmail.com>">
+<meta name="keyword" content="">
+<link rel="shortcut icon" type="image/png" href="@{'/public/img/favicon.png'}">
+<title>#{get 'title' /}</title>
+
+<!-- Icons -->
+<link rel="stylesheet" media="screen" href="@{'/public/vendor/bootstrap/dist/css/bootstrap.css'}">
+<link rel="stylesheet" href="@{'/public/vendor/font-awesome/css/font-awesome.min.css'}">
+#{get 'moreStyles' /}
+
+<link href="@{'/public/css/style.css'}" rel="stylesheet">
+
+</head>
+<body class="app flex-row align-items-center">
+  <div class="container">
+    #{doLayout /}
+  </div>
+
+  <script src="@{'/public/vendor/jquery/jquery.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+  <script src="@{'/public/vendor/popper.js/dist/umd/popper.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+  <script src="@{'/public/vendor/bootstrap/dist/js/bootstrap.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+  #{get 'moreScripts' /}
+</body>
+</html>

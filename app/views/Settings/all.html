@@ -1,0 +1,43 @@
+#{extends 'adminLayout.html' /}
+#{set 'title'} &{'bongamonga.settings.allSettings.pageTitle'} #{/set}
+
+#{set 'moreStyles'}
+#{/set}
+
+
+    
+
+<div class="row">
+  <div class="col-md-10 col-md-offset-1">
+    <div class="page-header">
+      <h2>
+        &{'bongamonga.settings.allSettings.pageHeader'}
+        <div class="pull-left">
+          <a class="btn btn-danger btn-xs" href="@{Settings.deleteAll}">&{'bongamonga.settings.reset.all.btn'}</a> 
+          <a class="btn btn-default btn-xs" href="@{Settings.index}">&{'bongamonga.settings.index.btn'}</a>
+        </div>
+      </h2> 
+    </div> <!-- /.page-header -->
+
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <table class="table table-striped">
+          <thead>
+            <th>نام</th>
+            <th>کلید یکتا</th>
+            <th>مقدار</th>
+          </thead>
+          <tbody>
+            #{list configs}
+            <tr>
+              <td>${_.getName()}</td>
+              <td><code>${_.key}</code></td>
+              <td>${_.value}</td>
+            </tr>
+            #{/list}
+          </tbody>
+        </table>
+      </div> <!-- /.panel-body -->
+    </div> <!-- /.panel -->
+  </div> <!-- /.col-md-12 -->
+</div> <!-- /.row -->
