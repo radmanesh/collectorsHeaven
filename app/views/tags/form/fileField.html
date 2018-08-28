@@ -1,0 +1,33 @@
+#{set _imageInputEnabled:true /}
+#{field 'object.' + _name}
+
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label" for="${field.id}">&{field.name}</label>
+    <div class=" col-sm-10">
+      <input type="file" name="${field.name}" class="form-control-file ${field.errorClass}" id="${field.id}" >
+      #{if _value && _value.exists() && _id}
+        <a class="currentAttachment" href="@{attachment(_id, _name)}">Download current file (${_value.length().formatSize()})</a>
+        <span class="removeAttachment"><input type="checkbox" name="${field.name}_delete_" value="true" /> (delete)</span>
+      #{/if}
+      
+      #{if _validations}
+          <small id="${field.id}helpBlock" class="form-text text-muted">
+        #{list _validations}
+            <div>&{_}</div> 
+        #{/list}
+          </small>
+      #{/if}
+      #{elseif _helpBlock}
+      <small id="${field.id}helpBlock" class="form-text text-muted">${_helpBlock}</small>
+      #{/elseif}
+      #{ifError field.name}
+        <div class="invalid-feedback">
+          ${field.error.raw()}
+        </div>
+      #{/ifError}
+    </div>
+  </div>
+  <div id="${field.id}previews" class="row">
+  	
+  </div>
+#{/field}

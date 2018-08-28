@@ -1,0 +1,29 @@
+#{field (_bName ? _bName  : 'object') +'.'+ _name}
+<div class="form-group row">
+  <div class="col-sm-2"></div>
+  <div class="col-sm-10">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" name="${field.name}" ${_optionalAttr} ${(params[field.name] ? params.getAll(field.name)[0] == 'true' : _value) ? 'checked="true"'.raw() : ''}>
+      <input type="hidden" name="${field.name}" value="false" />
+      <label class="form-check-label">
+        &{field.name}
+      </label>
+      #{if _validations}
+        <small id="${field.id}helpBlock" class="form-text text-muted">
+      #{list _validations}
+          <div>&{_}</div> 
+      #{/list}
+        </small>
+    #{/if}
+    #{elseif _helpBlock}
+    <small id="${field.id}helpBlock" class="form-text text-muted">${_helpBlock}</small>
+    #{/elseif}
+    #{ifError field.name}
+      <div class="invalid-feedback">
+        ${field.error.raw()}
+      </div>
+    #{/ifError}
+    </div>
+  </div>
+</div>
+#{/field}

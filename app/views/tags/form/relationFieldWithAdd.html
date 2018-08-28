@@ -1,0 +1,174 @@
+#{set select2Enabled:true /}
+
+%{ pName = 'object.' + _name + '.' + play.db.Model.Manager.factoryFor(_field.property.relationType).keyName() }%
+
+%{
+    hasController = false;
+    for(controllerClass in play.Play.classloader.getAssignableClasses(_('controllers.EnhancedCRUD'))) {
+        resourceModel = _('controllers.EnhancedCRUD$CustomizableObjectType').get(controllerClass)
+        if(resourceModel != null) {
+            if(resourceModel.entityClass.getFields().contains(_field)){
+                hasController = true;
+            }
+            for(entityField in resourceModel.entityClass.getFields()) {
+                if(entityField == _field){
+                    System.out.println(entityField + "   :    "+_field);
+                }
+            }
+        }
+    }
+    for(controllerClass in play.Play.classloader.getAssignableClasses(_('play.scalasupport.crud.EnhancedCRUDWrapper'))) {
+        resourceModel = _('controllers.EnhancedCRUD$CustomizableObjectType').get(controllerClass)
+        if(resourceModel != null) {
+            if(resourceModel.entityClass.getFields().contains(_field)){
+                hasController = true;
+            }
+        }
+    }
+}%
+
+#{field 'object.' + _name}
+<div class="form-group row ${_groupClass}"  id="${field.id}_group">
+  <label class="col-sm-2 col-form-label" for="${field.id}">&{field.name}</label>
+  <div class="col-sm-10">
+    <div class="input-group mb-3">
+      #{if _field.multiple}
+        <input type="hidden" name="${pName}" value="" />
+        <select id="${field.id}" name="${pName}" multiple class="form-control select2 select2-multiple chosen-select ${_inputClass}" #{if _helpBlock}aria-describedby="${field.id}helpBlock"#{/if} >
+            %{ _field.choices.each() { }%
+            %{
+                selected = false;
+                if(field.error?.message != 'validation.required') {
+                    if(params[pName]) {
+                        selected = params.getAll(${pName}).contains(it._key().toString())
+                    } else {
+                        if (_value != null) {
+                            for (it2 in _value) {
+                                if(it2._key() == it._key()) {
+                                    selected = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }%
+            <option value="${it._key()}" ${selected ? 'selected="true"'.raw() : ''}>${it}</option>
+            %{ } }%
+        </select>
+      #{/if}
+      #{else}
+        <select id="${field.id}" name="${pName}" class="form-control select2 slect2-single chosen-select ${_inputClass}">
+            #{ifnot _field.required}
+                <option value="">&{'crud.none'}</option>
+            #{/ifnot}
+            #{else}
+                <option value="">&{'crud.selectValue'}</option>
+            #{/else}
+            %{ _field.choices.each() { }%
+            %{
+                selected = false
+                if(field.error?.message != 'validation.required') {
+                    if(params[pName]) {
+                        selected = (it._key().toString() == params[pName])
+                    } else {
+                        selected = it._key() == _value?._key()
+                    }
+                }
+            }%
+            <option value="${it._key()}" ${selected ? 'selected="true"'.raw() : ''}>${it}</option>
+            %{ } }%
+        </select>
+      #{/else} 	
+      <div class="input-group-append">
+        <a class="btn btn-outline-secondary" href="javascript:refreshField_${_name}()">Refresh</a>
+      </div>
+      #{if hasController}
+      <div class="input-group-append">
+        <!-- <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#add${field?.name}EntityModal" data-whatever="">Add Entity</button> -->
+        <a class="btn btn-outline-secondary" target="_blank" href="#">&{'crud.add',_field?.property?.relationType?.name}</a>
+      </div>
+      #{/if}
+    </div>
+    #{if _validations}
+        <small id="${field.id}helpBlock" class="form-text text-muted">
+      #{list _validations}
+          <div>&{_}</div> 
+      #{/list}
+        </small>
+    #{/if}
+    #{elseif _helpBlock}
+        <small id="${field.id}helpBlock" class="form-text text-muted">${_helpBlock}</small>
+    #{/elseif}
+    #{ifError field.name}
+      <div class="invalid-feedback">
+        ${field.error.raw()}
+      </div>
+    #{/ifError}
+  </div>
+
+
+  *{
+  <!-- addEntityModal -->
+  <div class="modal fade" id="add${field?.name}EntityModal" tabindex="-1" role="dialog" aria-labelledby="add${field?.name}EntityModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="add${field?.name}EntityModalLabel">New ${_field?.property?.relationType?.getName()}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          #{form action:@newEntityFor(_value?.entityClass?._key(),_field), class:'add'+field?.name+'EntityForm', enctype:'multipart/form-data', ('data-toggle'):'validator'}
+              #{enhancedCrud.form class:_field?.property?.relationType?.getName() /} 
+  
+          #{/form}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <input type="submit" id="add${field?.name}EntitySubmitBtn" class="btn btn-primary" name="_addTo" value="&{'crud.addTo', _field?.property?.relationType?.getName()}" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    window.addEventListener('load', function () {
+      $(document).ready(function(){
+        $('#add${field?.name}EntityModal').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget) // Button that triggered the modal
+          var recipient = button.data('whatever') // Extract info from data-* attributes
+          // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+          // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+          var modal = $(this)
+          //modal.find('.modal-title').text('New message to ' + recipient)
+          //modal.find('.modal-body input').val(recipient)
+        });
+        $('#add${field?.name}EntitySubmitBtn').on('click', function(e){
+          $('#add${field?.name}EntityModal form').submit();
+        });
+      })
+    }, false);
+  </script>
+  }*
+
+  <script type="text/javascript">
+    refreshField_${_name}=function(){
+      var refreshFieldRoute = #{jsRoute @ajaxRefreshField(':fieldName',':id') /}
+  
+      $.ajax({
+        url: refreshFieldRoute.url( { fieldName:'${_name}', id:'${object?._key()}' } ),
+        type: refreshFieldRoute.method,
+        data: ''
+      })
+        .done(function(data){
+          $('#${field.id}_group').parent().html(data);
+          console.log(data);
+          $('select.select2').select2();
+        })
+        .fail(function( jqXHR, textStatus ) {
+          alert('failed : '+textStatus);
+        })
+    }
+  </script>
+</div>
+#{/field}

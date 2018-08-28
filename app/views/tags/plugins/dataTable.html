@@ -1,0 +1,61 @@
+#{set '_moreStyles'}
+#{get '_moreStyles' /}
+<style type="text/css">
+/*   table.dataTable tr>td{
+    word-break: break-all;
+  }
+ */
+</style>
+#{/set}
+
+<div class="card">
+  <div class="card-header">
+    <i class="fa fa-user"></i> &{_tableName}
+    <div class="float-right">
+    	   <a href="javascript:${_tableName}Update()" class="btn btn-primary btn-xs">&{'general.datatable.refresh.btn'}</a>
+    </div>
+  </div>
+  <div class="card-block">
+    <table id="${_tableName}TableId" class="table table-striped dt-responsive table-bordered datatable nowrap display ${_class}">
+    </table>  
+  </div>
+</div>
+
+
+#{set '_moreScripts'}
+  #{get '_moreScripts' /}
+  <script type="text/javascript">
+    console.log('plugins.dataTables');
+  </script>
+
+  <script type="text/javascript">
+  var ${_tableName}Update;
+  window.addEventListener('load', function () {
+  //your code right here;
+    ${_tableName}Update= function(){
+      $.ajax({
+        url: '${_updateUrl}',
+        type: 'post',
+        data: {'key':'${_key}'}
+      }).done(function( data ) {
+        if(data.columns.length>0){
+        $('#${_tableName}TableId').dataTable( {
+          destroy : true,
+          responsite: true,
+          "pageLength": 50,
+          "data": data.data,
+          "columns": data.columns
+          #{if lang=="fa"}
+           ,"language":{
+          	 url:"@{'/public/vendor/datatables.net/localisation/Persian.json'}"
+           }
+          #{/if}
+        } );
+        }
+      });
+    };
+    ${_tableName}Update();
+    }, false);
+  </script>
+#{/set}
+  

@@ -1,0 +1,91 @@
+#{set 'moreStyles'}
+  #{get 'moreStyles' /}
+  #{get '_moreStyles' /}
+  #{if summernoteEnabled}
+    <link rel="stylesheet" href="@{'public/vendor/summernote/dist/summernote-bs4.css'}" />
+  #{/if}
+  #{if select2Enabled}
+    <link rel="stylesheet" href="@{'public/vendor/select2/select2.css'}" />
+  #{/if}
+  #{if maskedEnabled}
+  #{/if}
+  #{if validationsEnabled}
+  #{/if}
+  #{if datatablesEnabled}
+    %{ System.out.println("datatables"); }%
+    <link rel="stylesheet" href="@{'/public/vendor/datatables.net-bs4/css/dataTables.bootstrap4.css'}" />
+    <link rel="stylesheet" href="@{'/public/vendor/datatables.net-responsive-bs4/css/responsive.bootstrap4.css'}" /> 
+  #{/if}
+  #{if imageInputEnabled}
+    
+  #{/if}
+#{/set}
+
+#{set 'moreScripts'}
+  #{get 'moreScripts' /}
+  #{get '_moreScripts' /}
+  #{if summernoteEnabled}
+    <script src="@{'public/vendor/summernote/dist/summernote-bs4.js'}"></script>
+    <script type="text/javascript">
+      $('textarea.summernote').summernote({
+        height: 300
+      });
+    </script>
+  #{/if}
+  #{if select2Enabled}
+    <script src="@{'public/vendor/select2/select2.js'}"></script>
+    <script type="text/javascript">
+      $('select.select2').select2();
+    </script>  
+  #{/if}
+  #{if maskedEnabled}
+    <script src="@{'/public/vendor/jquery.maskedinput/src/jquery.maskedinput.js'}" type="text/javascript"></script>
+  #{/if}
+  #{if validationsEnabled}
+    <script src="@{'/public/vendor/jquery-validation/dist/jquery.validate.min.js'}" type="text/javascript"></script>
+    <script>
+    $.validator.setDefaults({
+      submitHandler: function() {
+        console.log('valdator.submitted!');
+        submit();
+      }
+    });
+    $(document).ready(function(){
+      $("form.jvalidate").validate({
+        errorElement: 'em',
+        errorPlacement: function ( error, element ) {
+          // Add the `help-block` class to the error element
+          error.addClass( 'invalid-feedback' );
+          if ( element.prop( 'type' ) === 'checkbox' ) {
+            error.insertAfter( element.parent( 'label' ) );
+          } else {
+            error.insertAfter( element );
+          }
+        },
+        highlight: function ( element, errorClass, validClass ) {
+          $( element ).addClass( 'is-invalid' ).removeClass( 'is-valid' );
+          $( element ).parents( '.form-group' ).addClass( 'has-danger' ).removeClass( 'has-success' );
+        },
+        unhighlight: function (element, errorClass, validClass) {
+          $( element ).addClass( 'is-valid' ).removeClass( 'is-invalid' );
+          $( element ).parents( '.form-group' ).addClass( 'has-success' ).removeClass( 'has-danger' );
+        }
+      });
+    });
+
+    </script>
+  #{/if}
+  #{if datatablesEnabled}
+    <script src="@{'/public/vendor/datatables.net/js/jquery.dataTables.js'}"></script>
+    <script src="@{'/public/vendor/datatables.net-bs4/js/dataTables.bootstrap4.js'}"></script>
+    <script src="@{'/public/vendor/datatables.net-responsive/js/dataTables.responsive.min.js'}"></script>
+    <script src="@{'/public/vendor/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js'}"></script>
+    <script>
+      //$('table.datatable').DataTable();
+    </script>
+  #{/if}
+  #{if imageInputEnabled}
+    
+  #{/if}
+  
+#{/set}

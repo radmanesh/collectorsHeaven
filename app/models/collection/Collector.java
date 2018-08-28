@@ -17,5 +17,7 @@ public class Collector extends Model {
     @OneToMany(mappedBy="collector")
     public List<Collection> collections = new ArrayList<>();
     
-    
+    public static Collector connectedCollector() {
+        return Collector.find("user=?1", User.connectedUser()).first();
+    }
 }

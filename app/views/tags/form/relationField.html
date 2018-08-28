@@ -1,0 +1,30 @@
+#{set select2Enabled:true /}
+%{ _bName = _bName ? _bName  : 'object'; }%
+#{field _bName +'.'+ _name}
+<div class="form-group row ${_groupClass}"  id="${field.id}_group">
+    <label class="col-sm-2 col-form-label" for="${field.id}">&{field.name}</label>
+    <div class="col-sm-10">
+      <input type="hidden" name="${field.name}.id" value="" />
+      <select id="${field.id}" name="${field.name}.id" multiple class="form-control select2 select2-multiple ${_inputClass}" #{if _helpBlock}aria-describedby="${field.id}helpBlock"#{/if} >
+        #{list _values}
+          <option value="${_.id}" ${_selected.contains(_) ? 'selected' : ''} >&{_.toString()}</option>
+        #{/list}
+      </select>
+    #{if _validations}
+        <small id="${field.id}helpBlock" class="form-text text-muted">
+      #{list _validations}
+          <div>&{_}</div> 
+      #{/list}
+        </small>
+    #{/if}
+    #{elseif _helpBlock}
+        <small id="${field.id}helpBlock" class="form-text text-muted">${_helpBlock}</small>
+    #{/elseif}
+    #{ifError field.name}
+      <div class="invalid-feedback">
+        ${field.error.raw()}
+      </div>
+    #{/ifError}
+    </div>
+</div>
+#{/field}

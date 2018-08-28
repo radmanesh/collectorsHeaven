@@ -1,0 +1,121 @@
+<script type="text/javascript" src="/public/vendor/jquery-validation/dist/jquery.validate.js"></script>
+<script type="text/javascript" src="/public/vendor/jquery-validation/dist/additional-methods.js"></script>
+
+%{ //System.out.println("class: ".concat(_class.toString()).concat(" key: ").concat(_key));}%
+
+
+<script type="text/javascript">
+	$(document).ready(function(){
+  		$("${_formId ? _formId : 'form.jvalidate'}").validate({
+			rules: {
+			#{list items:_fields ?: type.fields*.name, as:'fieldName'}
+
+		    %{
+		        def field = type?.getField(fieldName)
+		        fieldFullName = _noKey ? fieldName : field ? field.name :((_key?:'object')+'.'+fieldName)
+		        am = ''
+	        	validators = play.data.validation.Validation.getValidators(_class?_class : type?.entityClass, fieldName, _key?: 'object'); //Test if key can be null string
+				//System.out.println(validators.size()); //utils.Utils.mapToString()
+				out.println "'" + fieldFullName + "': {"
+				validators.each() {
+					for(validator in it) {
+						switch (validator.annotation.annotationType().name.substring(21)) {
+						    case "Required":
+						        out.println "required: true,"
+								break;
+							case "MinSize":
+						        out.println "minlength: " + validator.annotation.value() + ","
+								break;
+							case "MaxSize":
+                                out.println "maxlength: " + validator.annotation.value() + ","
+                                break;							   
+							case "Range":
+						        out.println "range: [" + validator.annotation.min() + "," + validator.annotation.max() + "]," 
+								break;
+							case "Email":
+						        out.println "email: true,"
+                                out.println "pattern: /" + utils.Constants.emailPattern + "/,";
+								break;
+							case "Equals":
+						        out.println "equalTo: 'input[name=\"" + validator.params.equalsTo + "\"]',"
+								break;
+                            case "Min":
+                                out.println "min: " + validator.annotation.value() + ","
+                                break;
+                            case "Max":
+                                out.println "max: " + validator.annotation.value() + ","
+                                break;
+                            case "URL":
+                                out.println "url: true,"
+                                break;
+                            case "Match":
+                                out.println "pattern: /" + validator.annotation.value() + "/,"                                
+                                break;
+                            case "Phone":
+                                out.println "pattern: /" + utils.Constants.phonePattern + "/,";
+                                break;
+                            case "InFuture":
+                                //out.println "depends: function(element) { console.log(element) }";
+                                break;
+                            case "InPast":
+                              //out.println "depends: function(element) { console.log(element) }";
+                                break;
+                            case "IP4":
+                                break;
+                            case "IP6":
+                                break;
+						}
+					}
+				}
+				out.println "},"
+			}%
+			#{/list}
+			},
+		    errorClass: "invalid-feedback",
+		    validClass: "valid-feedback",
+		    errorElement: "div",
+            errorPlacement: function ( error, element ) {
+                // Add the `help-block` class to the error element
+                error.addClass( "invalid-feedback" );
+
+                // Add `has-feedback` class to the parent div.form-group
+                // in order to add icons to inputs
+                //element.parents( ".col-sm-5" ).addClass( "has-feedback" );
+
+                if ( element.prop( "type" ) === "checkbox" ) {
+                    error.insertAfter( element.parent( "label" ) );
+                } else {
+                    error.insertAfter( element );
+                }
+
+            },
+            success: function ( label, element ) {
+                // Add the span element, if doesn't exists, and apply the icon classes to it.
+                //if ( !$( element ).next( "span" )[ 0 ] ) {
+                    //$( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
+                //}
+            },
+            highlight: function ( element, errorClass, validClass ) {
+              $( element ).addClass( 'is-invalid' ).removeClass( 'is-valid' );
+              $( element ).parents( '.form-group' ).addClass( 'has-danger' ).removeClass( 'has-success' );
+            },
+            unhighlight: function (element, errorClass, validClass) {
+              $( element ).addClass( 'is-valid' ).removeClass( 'is-invalid' );
+              $( element ).parents( '.form-group' ).addClass( 'has-success' ).removeClass( 'has-danger' );
+            },
+/*             highlight: function ( element, errorClass, validClass ) {
+            	$( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+                $( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+            },
+            unhighlight: function ( element, errorClass, validClass ) {
+                $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+                $( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+            },
+ */            
+ 			invalidHandler: function(event, validator) {
+              $(this).addClass('was-validated');
+            }
+
+		});	
+	});
+</script>

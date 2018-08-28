@@ -1,0 +1,62 @@
+#{extends 'main.html' /} 
+#{set title:play.i18n.Messages.get('accountSettings.pageTitle') /} 
+
+#{set 'moreStyles'}
+<style>
+</style>
+#{/set}
+
+<div class="row">
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-user"></i> ${user?.userName}
+      </div>
+      <div class="card-block">
+        #{form @accountSettings , id:'accountSettingsForm' , method:'post'}
+          #{field 'object.firstName' , value:user?.profile?.firstName}
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">&{field.name}</label>
+            <div class="col-md-9">
+              <input id="${field.id}" name="${field.name}" type="${validationtype ? validationtype : 'text'}" class="form-control ${_inputClass}" id="${field.id}" placeholder="${_placeHolder}" value="${params[field.name]?.escape()?.raw() ?: field.error?.message == 'validation.required' ? '' : _value?.escape()?.raw()}" ${_optionalAttr} #{if _helpBlock}aria-describedby="${field.id}helpBlock"#{/if}>
+              <small class="form-text text-muted">&{'user.firstName.help'}</small>             	
+            </div>
+           </div>
+          #{/field} 
+
+           #{field 'object.lastName' , value:user?.profile?.lastName}
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">&{field.name}</label>
+            <div class="col-md-9">
+              <input id="${field.id}" name="${field.name}" type="${validationtype ? validationtype : 'text'}" class="form-control ${_inputClass}" id="${field.id}" placeholder="${_placeHolder}" value="${params[field.name]?.escape()?.raw() ?: field.error?.message == 'validation.required' ? '' : _value?.escape()?.raw()}" ${_optionalAttr} #{if _helpBlock}aria-describedby="${field.id}helpBlock"#{/if}>
+              <small class="form-text text-muted">&{'user.lastName.help'}</small>              
+            </div>
+           </div>
+          #{/field} 
+
+          #{field 'object.aboutMe' , value:user?profile?.aboutMe}
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">&{field.name}</label>
+            <div class="col-md-9">
+              <textarea rows="3" id="${field.id}" name="${field.name}" class="form-control ${_inputClass}" id="${field.id}" placeholder="${_placeHolder}" ${_optionalAttr} #{if _helpBlock}aria-describedby="${field.id}helpBlock"#{/if}>${params[field.name]?.escape()?.raw() ?: field.error?.message == 'validation.required' ? '' : _value?.escape()?.raw()}</textarea> 
+              <small class="form-text text-muted">&{'user.aboutMe.help'}</small>
+            </div>
+          </div>
+         #{/field}
+         <div class="form-group row">
+            <label class="col-md-3 col-form-label">&{'user.email'}</label>
+            <div class="col-md-9">
+              <p class="form-control-static">${user?.email}</p>
+            </div>
+          </div>
+         
+         <button type="submit" class="btn btn-primarty">&{'form.submit'}</button>
+        #{/form}      
+      
+      
+      </div>
+    </div>
+    
+
+  </div>
+</div>

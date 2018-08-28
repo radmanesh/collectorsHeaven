@@ -1,0 +1,21 @@
+#{extends 'main.html' /} 
+#{set title:play.i18n.Messages.get('createCollection.pageTitle') /} 
+
+#{set 'moreStyles'}
+<style>
+</style>
+#{/set}
+
+<h4>&{createCollection.pageTitle}</h4>
+#{form @editCollection(), class='form' , role:'form' }
+  #{field 'collection.name'}
+  #{/field}
+
+  %{ List<play.data.validation.Validation.Validator> validators = play.data.validation.Validation.getValidators(models.collection.Collection.class, 'name', 'collection'); }%
+  #{form.textField name:'name',bName:'collection',value:collection?.name , validators:validators , optionalAttr:utils.Utils.jvalidateTagsFromValidators(validators) /}
+
+  %{ validators = play.data.validation.Validation.getValidators(models.collection.Collection.class, 'description', 'collection'); }%
+  #{form.longtextField name:'description',bName:'property',value:collection?.description , validators:validators , optionalAttr:utils.Utils.jvalidateTagsFromValidators(validators) /}
+
+
+#{/form}
