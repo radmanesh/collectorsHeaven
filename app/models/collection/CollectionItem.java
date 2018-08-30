@@ -1,12 +1,20 @@
+/*
+ * 
+ */
 package models.collection;
 
-import play.db.jpa.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import models.ImageAttachment;
-
-import java.util.*;
+import play.db.jpa.Blob;
+import play.db.jpa.Model;
 
 @Entity
 public class CollectionItem extends Model {
@@ -16,9 +24,18 @@ public class CollectionItem extends Model {
     
     public String name;
     
+    public String description;
+    
     @OneToMany
-    public List<ImageAttachment> images = new ArrayList<>();
+    public List<ImageAttachment> imageAttachments = new ArrayList<>();
+    
+    @ElementCollection
+    public List<Blob> images = new ArrayList<>();
     
     @ManyToMany
     public List<Tag> tags = new ArrayList<>();
+    
+    public boolean hasImage() {
+        return (images!=null && images.size()>0);
+    }
 }

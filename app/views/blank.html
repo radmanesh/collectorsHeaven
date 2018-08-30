@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="${lang}" ${lang=="fa" ? "dir='rtl'" : ""}>
+<head>
+<meta charset="${_response_encoding}">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Collectors">
+<meta name="author" content="Arman Radmanesh <radmanesh@gmail.com>">
+<meta name="keyword" content="">
+<link rel="shortcut icon" type="image/png" href="@{'/public/img/favicon.png'}">
+<title>#{get 'title' /}</title>
+
+<!-- Icons -->
+<link rel="stylesheet" media="screen" href="@{'/public/vendor/bootstrap/dist/css/bootstrap.css'}">
+<link rel="stylesheet" href="@{'/public/vendor/font-awesome/css/font-awesome.min.css'}">
+#{get 'moreStyles' /}
+
+<link href="@{'/public/css/style.css'}" rel="stylesheet">
+
+</head>
+<body class="#{get 'bodyClass' /}">
+  <div class="container">
+    <!-- Notifications -->
+    <div class="notifications-container">
+      #{ifErrors}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>&{'flash.error.strong'}</strong>
+          #{if utils.Utils.isDev()}
+          <ul class="list-unstyled">
+            #{errors}
+               <li>&{error?.getKey()} ${error}</li>
+            #{/errors}                
+          </ul>
+          #{/if}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      #{/ifErrors}
+      #{else}
+        #{if flash.success}
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>&{'flash.success.strong'}</strong> &{flash.success}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        #{/if}
+        #{if flash.error || error}
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>&{'flash.error.strong'}</strong> &{error ?: flash.error}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        #{/if}
+      #{/else}
+    </div>
+    <div class="main-content">
+      #{doLayout /}
+    </div>
+  </div>
+
+  <footer class="app-footer">
+    <div class="footer-copyright">
+      <p class="text-center">&{'main.footer.text'}<p>
+    </div>
+  </footer>
+
+  <script src="@{'/public/vendor/jquery/jquery.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+  <script src="@{'/public/vendor/popper.js/dist/umd/popper.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+  <script src="@{'/public/vendor/bootstrap/dist/js/bootstrap.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+  #{get 'moreScripts' /}
+</body>
+</html>

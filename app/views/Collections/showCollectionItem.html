@@ -1,0 +1,28 @@
+#{extends 'main.html' /} 
+#{set title:play.i18n.Messages.get('showCollectionItem.pageTitle') /} 
+
+#{set 'moreStyles'}
+<style>
+</style>
+#{/set}
+
+
+<hr />
+<div class="row">
+  <div class="col-md-4">
+    <h3 class="text-center">${collectionItem?.name}</h3>
+    <p class="collection-item-description">${collectionItem?.description}</p>
+  </div>
+  <div class="col-md-8">
+    #{list collectionItem?.images}
+      <div class="col-lg-4 col-md-6 col-sm-12">
+          <img src="@{Collections.renderCollectionItemIcon(collectionItem?.id)}?index=${_index}" alt="" class="collection-item-icon" />
+      </div>
+    #{/list}
+    #{else}
+      <div class="col-md-12 text-center">
+        <p>&{'collectionItem.noImage'}</p>  
+      </div>
+    #{/else}
+  </div>  
+</div>

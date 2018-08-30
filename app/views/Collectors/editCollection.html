@@ -1,0 +1,84 @@
+#{extends 'main.html' /} 
+#{set title:play.i18n.Messages.get('editCollection.pageTitle') /} 
+
+#{set 'moreStyles'}
+<style>
+</style>
+#{/set}
+
+<h4>&{'editCollection.pageTitle'}</h4>
+#{form @updateCollection(collection?.id), class:'form' , role:'form' , enctype:'multipart/form-data', class:'jvalidate' }
+  <input type="hidden" name="collection.collector.id" value="${models.users.Collector.connectedCollector()?.id}" />
+
+  %{ List<play.data.validation.Validation.Validator> validators = play.data.validation.Validation.getValidators(models.collection.Collection.class, 'name', 'collection'); }%
+  #{form.textField name:'name',bName:'collection',value:flash?.name , validators:validators , optionalAttr:utils.Utils.jvalidateTagsFromValidators(validators) /}
+
+  %{ validators = play.data.validation.Validation.getValidators(models.collection.Collection.class, 'description', 'collection'); }%
+  #{form.longtextField name:'description',bName:'collection',value:flash?.description , validators:validators , optionalAttr:utils.Utils.jvalidateTagsFromValidators(validators) /}
+  
+  #{field 'collection.icon'}
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label" for="${field.id}">&{field.name}</label>
+    <div class=" col-sm-10">
+      <input type="image" name="${field.name}" id="${field.id}" class="form-control-file ${field.errorClass}" value="${flash?.icon}" />
+      #{if collection.icon && collection?.icon?.exists()}
+        <!-- <a class="currentAttachment" href="@{Collections.renderCollectionIcon(collection?.id)}">Download current file (${collection?.icon?.length()?.formatSize()})</a> -->
+        <span class="removeAttachment"><input type="checkbox" name="${field.name}_delete_" value="true" /> (delete)</span>      
+      #{/if}
+    </div>
+  </div>
+  #{/field}
+  
+  #{field 'collection.category'}
+    <select name="${field.name}" id="${field.id}" class="custom-select">
+      <option selected value>Please select categories</option>
+    </select>
+  #{/field}
+  
+  #{field 'collection.tags'}
+    <select name="${field.name}" id="${field.id}" class="custom-select">
+      <option selected value>Please select tags</option>
+    </select>    
+  #{/field}
+
+  <button type="submit" class="btn btn-primary">&{'form.submit'}</button>
+
+#{/form}
+
+
+
+
+<h3 class="text-center">${collection?.name}</h3>
+<img src="@{Collections.renderCollectionIcon(_?.id)}" alt="" class="collection-icon" />
+<p>${collection?.description}</p>
+
+<hr />
+<div class="row">
+#{list collection?.items}
+  <div class="col-lg-3 col-md-4 col-sm-6">
+    <h5><strong>${_?.name}</strong></h5>
+    #{if _?.hasImage()}
+      <img src="@{Collections.renderCollectionItemIcon(_?.id)}?index=${_index}" alt="" class="collection-item-icon" />
+    #{/if}
+  </div>
+#{/list}
+#{else}
+  <div class="col-md-12 text-center">
+    <p>&{'collection.noItems'}</p>  
+  </div>
+#{/else}
+</div>
+
+#{form @editCollection(), class:'form' , role:'form' }
+  #{field 'collection.name'}
+  #{/field}
+
+  %{ List<play.data.validation.Validation.Validator> validators = play.data.validation.Validation.getValidators(models.collection.Collection.class, 'name', 'collection'); }%
+  #{form.textField name:'name',bName:'collection',value:collection?.name , validators:validators , optionalAttr:utils.Utils.jvalidateTagsFromValidators(validators) /}
+
+  %{ validators = play.data.validation.Validation.getValidators(models.collection.Collection.class, 'description', 'collection'); }%
+  #{form.longtextField name:'description',bName:'property',value:collection?.description , validators:validators , optionalAttr:utils.Utils.jvalidateTagsFromValidators(validators) /}
+
+  <button type="submit" class="btn btn-primary">&{'form.submit'}</button>
+
+#{/form}

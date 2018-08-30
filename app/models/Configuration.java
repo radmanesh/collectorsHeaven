@@ -1,10 +1,9 @@
-/*******************************************************************************
- *      Author: Arman Radmanesh <radmanesh@gmail.com>
- *  Created on: Feb 28, 2018
- *     Project: bongamonga
- *   Copyright: See the file "LICENSE" for the full license governing this code.
- * Description: 
- *******************************************************************************/
+/*
+ * (C) Copyright 2018 arman (collectors) and others.
+ *
+ * Configuration.java
+ * Created 9:44:39 AM
+ */
 
 package models;
 
@@ -21,15 +20,15 @@ import play.db.jpa.Model;
 public class Configuration extends Model {
 
     /** The key. */
-    @Column(name="CONF_KEY")
+    @Column(name = "CONF_KEY")
     public String key;
-    
+
     /** The value. */
-    @Column(name="CONF_VAL")
+    @Column(name = "CONF_VAL")
     public String value;
-    
+
     /** The name. */
-    @Column(name="CONF_NAME")
+    @Column(name = "CONF_NAME")
     private String name;
 
     /**
@@ -42,9 +41,12 @@ public class Configuration extends Model {
     /**
      * Main constructor.
      *
-     * @param name the name
-     * @param key the key
-     * @param value the value
+     * @param name
+     *            the name
+     * @param key
+     *            the key
+     * @param value
+     *            the value
      */
     public Configuration(String name, String key, String value) {
         this.name = name;
@@ -52,6 +54,11 @@ public class Configuration extends Model {
         this.value = value;
     }
 
+    /**
+     * Gets the name.
+     *
+     * @return the name
+     */
     public String getName() {
         if (this.name != null) {
             return this.name;
@@ -62,8 +69,10 @@ public class Configuration extends Model {
     /**
      * Returns value of configuration with the desired key.
      *
-     * @param key the key
-     * @param defaultValue the default value
+     * @param key
+     *            the key
+     * @param defaultValue
+     *            the default value
      * @return the string
      */
     public static String get(String key, String defaultValue) {
@@ -77,8 +86,10 @@ public class Configuration extends Model {
     /**
      * Returns integer value of configuration with the desired key.
      *
-     * @param key the key
-     * @param defaultValue the default value
+     * @param key
+     *            the key
+     * @param defaultValue
+     *            the default value
      * @return Integer
      */
     public static Integer get(String key, Integer defaultValue) {
@@ -92,9 +103,12 @@ public class Configuration extends Model {
     /**
      * Sets the.
      *
-     * @param name the name
-     * @param key the key
-     * @param value the value
+     * @param name
+     *            the name
+     * @param key
+     *            the key
+     * @param value
+     *            the value
      */
     public static void set(String name, String key, String value) {
         Configuration c = find("key = ?1", key).first();
@@ -108,7 +122,9 @@ public class Configuration extends Model {
         c.save();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see play.db.jpa.JPABase#toString()
      */
     @Override

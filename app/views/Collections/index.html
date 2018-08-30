@@ -1,0 +1,33 @@
+#{extends 'main.html' /}
+#{set title:'Collections' /}
+
+#{set 'moreStyles'}
+<style>
+  .collection-container{
+    max-height: 300px;
+  }
+  .collection-container .collection-name{
+    display: block;
+  }
+</style>
+#{/set}
+
+
+<h3 class="page-title text-center">Collections List</h3>
+<div class="row">
+#{list collections}
+  <div class="col-lg-3 col-md-4 col-sm-6">
+    <div class="collection-container">
+      <a href="@{Collections.showCollection(_?.id)}" title="${_?.name}">
+        <img src="@{Collections.renderCollectionIcon(_?.id)}" alt="" class="collection-icon" />
+        <span class="collection-name">${_?.name}</span>      
+      </a>
+    </div>
+  </div>
+#{/list}
+#{else}
+  <div class="col-md-12 text-center">
+    <p>&{'collections.noItems'}</p>  
+  </div>
+#{/else}
+</div>  

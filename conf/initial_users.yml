@@ -1,0 +1,51 @@
+models.users.User(Admin):
+    userName:           admin
+    email:              admin@collectors.com
+    passwordHash:       4233137d1c510f2e55ba5cb220b864b11033f156    # hello123 (SHA1)
+    fullName:           Administrator
+    roles:              [AdminRole,UserRole]
+    confirmed:          true
+    configs:            null
+
+models.users.UserProfile(AdminProfile):
+    user: Admin
+    firstName: Administrator
+    lastName: collectors
+    birthday: 4/7/1985
+    aboutMe: I'm the administrator of Collectors® group website.
+
+models.users.User(User):
+    userName:           user
+    email:              user@collectors.com
+    passwordHash:       4233137d1c510f2e55ba5cb220b864b11033f156    # hello123 (SHA1)
+    fullName:           regular user
+    roles:              [UserRole]
+    confirmed:          true
+    configs:            null
+
+models.users.UserProfile(UserProfile):
+    user: User
+    firstName: Ahmad
+    lastName: Kazemi  
+    birthday: 1/1/1990
+    aboutMe: regular user of this website.
+
+models.users.User(CollectorUser):
+    userName:           collector
+    email:              collector@collectors.com
+    passwordHash:       4233137d1c510f2e55ba5cb220b864b11033f156    # hello123 (SHA1)
+    fullName:           collector user
+    roles:              [CollectorRole]
+    confirmed:          true
+    configs:            null
+
+models.users.UserProfile(CollectorProfile):
+    user: CollectorUser
+    firstName: Hamid
+    lastName: nazari
+    birthday: 12/10/1981
+    aboutMe: regular user of this website.
+
+models.users.Collector(Collector):
+    user: CollectorUser
+    isApproved: true

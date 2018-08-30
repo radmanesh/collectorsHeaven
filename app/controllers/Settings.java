@@ -1,10 +1,9 @@
-/*******************************************************************************
- *      Author: Arman Radmanesh <radmanesh@gmail.com>
- *  Created on: Feb 28, 2018
- *     Project: bongamonga
- *   Copyright: See the file "LICENSE" for the full license governing this code.
- * Description: 
- *******************************************************************************/
+/*
+ * (C) Copyright 2018 arman (collectors) and others.
+ *
+ * Settings.java
+ * Created 9:44:39 AM
+ */
 
 package controllers;
 
@@ -24,6 +23,7 @@ import play.mvc.Controller;
 import play.mvc.With;
 import utils.Constants;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class Settings.
  */
@@ -83,11 +83,12 @@ public class Settings extends Controller {
                 if ("language".equalsIgnoreCase(entry.getKey()))
                     updateCurrentLanguage();
                 // Update log level on submit TODO: don't update when is'nt changed
-                if("loglevel".equalsIgnoreCase(entry.getKey())) {
-                    Logger.warn("setting play logger level to: %s  ,  %s", entry.getValue() , String.valueOf(Logger.isEnabledFor(entry.getValue())));
+                if ("loglevel".equalsIgnoreCase(entry.getKey())) {
+                    Logger.warn("setting play logger level to: %s  ,  %s", entry.getValue(),
+                            String.valueOf(Logger.isEnabledFor(entry.getValue())));
                     Logger.info("juli level %s", Logger.log4j.getLevel().toString());
                     play.Logger.setUp(entry.getValue());
-                    
+
                 }
             }
         }
@@ -103,11 +104,13 @@ public class Settings extends Controller {
     private static void updateCurrentLanguage() {
         String appName = Play.configuration.getProperty("application.name");
         String lang = Configuration.get(appName + ".language", Constants.defaultAppLang);
-        if(lang.equalsIgnoreCase("fa")) {
-            Locale persianLocale = new Locale.Builder().setLanguage("fa").setRegion("IR").setExtension(Locale.UNICODE_LOCALE_EXTENSION, "nu-arab").build();
-            Logger.info("locale lang :%s , toString: %s", persianLocale.getLanguage(),persianLocale.toString());
+        if (lang.equalsIgnoreCase("fa")) {
+            Locale persianLocale = new Locale.Builder().setLanguage("fa").setRegion("IR")
+                    .setExtension(Locale.UNICODE_LOCALE_EXTENSION, "nu-arab").build();
+            Logger.info("locale lang :%s , toString: %s", persianLocale.getLanguage(), persianLocale.toString());
             play.i18n.Lang.change(persianLocale.getLanguage());
-        }else {
+        }
+        else {
             Locale loc = new Locale.Builder().setLanguage("en").setRegion("US").clearExtensions().build();
             play.i18n.Lang.change(loc.getLanguage());
         }

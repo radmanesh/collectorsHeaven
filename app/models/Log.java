@@ -1,10 +1,9 @@
-/*******************************************************************************
- *      Author: Arman Radmanesh <radmanesh@gmail.com>
- *  Created on: Feb 28, 2018
- *     Project: bongamonga
- *   Copyright: See the file "LICENSE" for the full license governing this code.
- * Description: 
- *******************************************************************************/
+/*
+ * (C) Copyright 2018 arman (collectors) and others.
+ *
+ * Log.java
+ * Created 9:44:40 AM
+ */
 
 package models;
 
@@ -29,17 +28,17 @@ public class Log extends Model {
      * The Enum LogType.
      */
     public enum LogType {
-        
+
         /** The system. */
-        SYSTEM, 
- /** The user. */
- USER, 
- /** The misc. */
- MISC, 
- /** The frontend. */
- FRONTEND, 
- /** The backend. */
- BACKEND
+        SYSTEM,
+        /** The user. */
+        USER,
+        /** The misc. */
+        MISC,
+        /** The frontend. */
+        FRONTEND,
+        /** The backend. */
+        BACKEND
     }
 
     /** The type. */
@@ -56,9 +55,12 @@ public class Log extends Model {
     /**
      * Instantiates a new log.
      *
-     * @param type the type
-     * @param title the title
-     * @param message the message
+     * @param type
+     *            the type
+     * @param title
+     *            the title
+     * @param message
+     *            the message
      */
     public Log(LogType type, String title, String message) {
         this.actor = Security.connected();

@@ -1,0 +1,11 @@
+models.users.UserRole(UserRole):
+    name:             user
+
+models.users.UserRole(CollectorRole):
+    name:             collector
+
+models.users.UserRole(AdminRole):
+    name:             admin
+
+models.users.UserRole(SuperRole):
+    name:             super

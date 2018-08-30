@@ -1,8 +1,11 @@
+/*
+ * 
+ */
 package models.collection;
 
-import play.db.jpa.*;
+import javax.persistence.Entity;
 
-import javax.persistence.*;
+import play.db.jpa.Model;
 
 @Entity
 public class Tag extends Model {

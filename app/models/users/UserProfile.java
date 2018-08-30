@@ -8,14 +8,21 @@
 
 package models.users;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
+import models.collection.Collection;
+import models.collection.CollectionItem;
 import play.data.validation.MaxSize;
 import play.data.validation.Required;
+import play.db.jpa.Blob;
 import play.db.jpa.Model;
 
 // TODO: Auto-generated Javadoc
@@ -47,10 +54,18 @@ public class UserProfile extends Model {
 
     /** The birthday. */
     public Date birthday;
+    
+    public Blob avatar;
 
     /** The about me. */
     @Lob
     @Column(length=1024)
     @MaxSize(1024)
     public String aboutMe;
+    
+    @ManyToMany
+    public List<Collection> favoriteCollections = new ArrayList<>();
+    
+    @ManyToMany
+    public List<CollectionItem> favoriteItems = new ArrayList<>();
 }

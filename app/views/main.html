@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="${lang}">
+<html lang="${lang}" ${lang=="fa" ? "dir='rtl'" : ""}>
 <head>
 <meta charset="${_response_encoding}">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="BongaMonga">
+<meta name="description" content="Collectors">
 <meta name="author" content="Arman Radmanesh <radmanesh@gmail.com>">
 <meta name="keyword" content="">
 <link rel="shortcut icon" type="image/png" href="@{'/public/img/favicon.png'}">
@@ -17,7 +17,6 @@
 
 <link href="@{'/public/css/style.css'}" rel="stylesheet">
 </head>
-<html>
 <body>
   <nav class="navbar navbar-expand-md navbar-dark app-header">
     <div class="container">
@@ -68,6 +67,12 @@
   <div class="container">
     #{doLayout /}
   </div>
+
+  <footer class="app-footer">
+    <div class="footer-copyright">
+      <p class="text-center">&{'main.footer.text'}<p>
+    </div>
+  </footer>
 
   <script src="@{'/public/vendor/jquery/jquery.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
   <script src="@{'/public/vendor/popper.js/dist/umd/popper.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
