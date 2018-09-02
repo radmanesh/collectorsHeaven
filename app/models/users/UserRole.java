@@ -14,7 +14,6 @@ import javax.persistence.Entity;
 
 import models.deadbolt.Role;
 import play.data.validation.Required;
-import play.db.jpa.GenericModel;
 import play.db.jpa.Model;
 import play.i18n.Messages;
 
@@ -58,7 +57,7 @@ public class UserRole extends Model implements Role {
      * @return the by name
      */
     public static UserRole getByName(String name) {
-        return GenericModel.find("byName", name).first();
+        return find("byName", name).first();
     }
     
     public static UserRole getOrCreate(String name) {

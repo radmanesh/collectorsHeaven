@@ -1,0 +1,36 @@
+#{extends 'blank.html' /}
+#{set 'title'}&{'registration.email.confirmation.pending.page.title'} #{/set}
+
+#{set bodyClass:'app flex-row align-items-center' /}
+
+#{ifErrors}
+<div class="error">
+    <h2>&{'flash.error'}</h2>
+</div>
+#{/ifErrors}
+
+<h1 class="text-center">&{'registration.email.confirmation.pending.page.pageHeader'}</h1>
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card px-2">
+      <div class="card-body p-4">
+        <p class="text-muted">&{'registration.email.confirmation.pending.page.description'}</p>
+        #{form @Registration.confirmEmail(),id:'confirmEmailForm' }
+          <input type="hidden" name="id" value="${user?.id}" />
+          <div class="form-group ">
+            <!-- <label class="col-sm-3 col-form-label" for="">&{'registration.email.confirmation.pending.page.code.label'}</label> -->
+            <input type="text" name="confirmationCode" class="form-control" placeholder="&{'registration.email.confirmation.input.placeholder'}" required >
+          </div>
+          <button type="submit" class="btn btn-block btn-success">&{'form.submit'}</button>
+        #{/form}
+        <a href="@{resendVeirificationEmail(user?.id)}" class="btn btn-secondary">&{'registration.email.confirmation.resend.btn'}</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+#{set 'moreScripts'}
+
+#{/set}
+
+

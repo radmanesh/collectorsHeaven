@@ -10,7 +10,6 @@ import java.util.List;
 
 import models.collection.Collection;
 import models.collection.CollectionItem;
-import play.db.jpa.GenericModel;
 import play.mvc.Controller;
 import play.vfs.VirtualFile;
 import utils.Constants;
@@ -25,7 +24,7 @@ public class Collections extends Controller {
      * Index.
      */
     public static void index() {
-        List<Collection> collections = GenericModel.all().fetch();
+        List<Collection> collections = Collection.all().fetch();
         render(collections);
     }
 
@@ -36,7 +35,7 @@ public class Collections extends Controller {
      *            the id
      */
     public static void showCollection(Long id) {
-        Collection collection = GenericModel.findById(id);
+        Collection collection = Collection.findById(id);
         render(collection);
     }
 
@@ -47,7 +46,7 @@ public class Collections extends Controller {
      *            the id
      */
     public static void showCollectionItem(Long id) {
-        CollectionItem collectionItem = GenericModel.findById(id);
+        CollectionItem collectionItem = Collection.findById(id);
         render(collectionItem);
     }
 
@@ -58,11 +57,11 @@ public class Collections extends Controller {
      *            the id
      */
     public static void renderCollectionIcon(Long id) {
-        Collection c = GenericModel.findById(id);
+        Collection c = Collection.findById(id);
         if (c == null || c.icon == null || !c.icon.exists()) {
-            renderBinary(VirtualFile.fromRelativePath(Constants.collectionNoIconImagePath).inputstream());
+            renderBinary(VirtualFile.fromRelativePath(Constants.collectionNoIconImagePath).getRealFile());
         }
-        renderBinary(c.icon.get());
+        renderBinary(c.icon.getFile());
     }
 
     /**
@@ -72,7 +71,7 @@ public class Collections extends Controller {
      *            the id
      */
     public static void renderCollectionItemIcon(Long id) {
-        CollectionItem ci = GenericModel.findById(id);
+        CollectionItem ci = CollectionItem.findById(id);
         if (ci == null || !ci.hasImage()) {
             renderBinary(VirtualFile.fromRelativePath(Constants.itemNoImagePath).inputstream());
         }

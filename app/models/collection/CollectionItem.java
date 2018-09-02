@@ -12,7 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import models.ImageAttachment;
+import models.FileAttachment;
 import play.db.jpa.Blob;
 import play.db.jpa.Model;
 
@@ -27,7 +27,7 @@ public class CollectionItem extends Model {
     public String description;
     
     @OneToMany
-    public List<ImageAttachment> imageAttachments = new ArrayList<>();
+    public List<FileAttachment> imageAttachments = new ArrayList<>();
     
     @ElementCollection
     public List<Blob> images = new ArrayList<>();

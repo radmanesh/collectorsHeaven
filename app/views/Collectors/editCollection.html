@@ -11,16 +11,16 @@
   <input type="hidden" name="collection.collector.id" value="${models.users.Collector.connectedCollector()?.id}" />
 
   %{ List<play.data.validation.Validation.Validator> validators = play.data.validation.Validation.getValidators(models.collection.Collection.class, 'name', 'collection'); }%
-  #{form.textField name:'name',bName:'collection',value:flash?.name , validators:validators , optionalAttr:utils.Utils.jvalidateTagsFromValidators(validators) /}
+  #{form.textField name:'name',bName:'collection',value:collection?.name ?: flash['collection.name']  , validators:validators , optionalAttr:utils.Utils.jvalidateTagsFromValidators(validators) /}
 
   %{ validators = play.data.validation.Validation.getValidators(models.collection.Collection.class, 'description', 'collection'); }%
-  #{form.longtextField name:'description',bName:'collection',value:flash?.description , validators:validators , optionalAttr:utils.Utils.jvalidateTagsFromValidators(validators) /}
+  #{form.longtextField name:'description',bName:'collection',value:collection?.description ?: flash['collection.description'] , validators:validators , optionalAttr:utils.Utils.jvalidateTagsFromValidators(validators) /}
   
   #{field 'collection.icon'}
   <div class="form-group row">
     <label class="col-sm-2 col-form-label" for="${field.id}">&{field.name}</label>
     <div class=" col-sm-10">
-      <input type="image" name="${field.name}" id="${field.id}" class="form-control-file ${field.errorClass}" value="${flash?.icon}" />
+      <input type="file" name="${field.name}" id="${field.id}" class="form-control-file ${field.errorClass}" value="collection?.icon" />
       #{if collection.icon && collection?.icon?.exists()}
         <!-- <a class="currentAttachment" href="@{Collections.renderCollectionIcon(collection?.id)}">Download current file (${collection?.icon?.length()?.formatSize()})</a> -->
         <span class="removeAttachment"><input type="checkbox" name="${field.name}_delete_" value="true" /> (delete)</span>      
@@ -68,17 +68,3 @@
   </div>
 #{/else}
 </div>
-
-#{form @editCollection(), class:'form' , role:'form' }
-  #{field 'collection.name'}
-  #{/field}
-
-  %{ List<play.data.validation.Validation.Validator> validators = play.data.validation.Validation.getValidators(models.collection.Collection.class, 'name', 'collection'); }%
-  #{form.textField name:'name',bName:'collection',value:collection?.name , validators:validators , optionalAttr:utils.Utils.jvalidateTagsFromValidators(validators) /}
-
-  %{ validators = play.data.validation.Validation.getValidators(models.collection.Collection.class, 'description', 'collection'); }%
-  #{form.longtextField name:'description',bName:'property',value:collection?.description , validators:validators , optionalAttr:utils.Utils.jvalidateTagsFromValidators(validators) /}
-
-  <button type="submit" class="btn btn-primary">&{'form.submit'}</button>
-
-#{/form}

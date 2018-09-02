@@ -8,7 +8,8 @@
 package jobs;
 
 import models.Configuration;
-import play.db.jpa.GenericModel;
+import models.users.User;
+import models.users.UserRole;
 import play.i18n.Lang;
 import play.jobs.Job;
 import play.jobs.OnApplicationStart;
@@ -30,9 +31,9 @@ public class Bootstrap extends Job {
     @Override
     public void doJob() throws Exception {
         if (!play.Play.id.matches("test")) {
-            if (GenericModel.count() == 0)
+            if (UserRole.count() == 0)
                 Fixtures.loadModels("initial_roles.yml");
-            if (GenericModel.count() == 0)
+            if (User.count() == 0)
                 Fixtures.loadModels("initial_users.yml");
         }
 

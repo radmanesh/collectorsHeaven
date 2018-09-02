@@ -1,11 +1,3 @@
-/*******************************************************************************
- * Author: Arman Radmanesh <radmanesh@gmail.com>
- * Created on: Feb 28, 2018
- * Project: bongamonga
- * Copyright: See the file "LICENSE" for the full license governing this code.
- * Description:
- *******************************************************************************/
-
 package controllers.security;
 
 import controllers.Secure;

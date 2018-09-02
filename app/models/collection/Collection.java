@@ -13,7 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import models.ImageAttachment;
+import models.FileAttachment;
 import models.users.Collector;
 import play.data.validation.MaxSize;
 import play.db.jpa.Blob;
@@ -39,7 +39,7 @@ public class Collection extends Model {
     public Blob icon;
     
     @ManyToOne
-    public ImageAttachment collectionIcon;
+    public FileAttachment collectionIcon;
     
     @ManyToMany
     public List<Tag> tags = new ArrayList<>();

@@ -13,7 +13,6 @@ import models.collection.Collection;
 import models.users.User;
 import models.users.UserProfile;
 import play.data.validation.Validation;
-import play.db.jpa.GenericModel;
 import play.mvc.Before;
 import play.mvc.Controller;
 import play.mvc.Router;
@@ -40,7 +39,7 @@ public class Application extends Controller {
      * Index.
      */
     public static void index() {
-        List<Collection> collections = GenericModel.all().fetch();
+        List<Collection> collections = Collection.all().fetch();
         render(collections);
     }
 

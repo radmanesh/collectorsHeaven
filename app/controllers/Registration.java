@@ -14,7 +14,6 @@ import models.users.UserRole;
 import notifiers.AuthNotifier;
 import play.Logger;
 import play.data.validation.Validation;
-import play.db.jpa.GenericModel;
 import play.libs.Codec;
 import play.mvc.Before;
 import play.mvc.Controller;
@@ -79,7 +78,7 @@ public class Registration extends Controller {
      *            the id
      */
     public static void emailConfirmationPending(Long id) {
-        User user = GenericModel.findById(id);
+        User user = User.findById(id);
         notFoundIfNull(user);
         if (user.isConfirmed()) {
             flash.error("registration.email.confirmation.pending");
@@ -121,7 +120,7 @@ public class Registration extends Controller {
      *            the confirmation code
      */
     public static void confirmEmail(Long id, String confirmationCode) {
-        User user = GenericModel.findById(id);
+        User user = User.findById(id);
         notFoundIfNull(user);
         notFoundIfNull(confirmationCode);
         Logger.info("code: %s , %s", user.needEmailConfirmation, confirmationCode);
@@ -146,7 +145,7 @@ public class Registration extends Controller {
      *            the id
      */
     public static void resendVeirificationEmail(Long id) {
-        User user = GenericModel.findById(id);
+        User user = User.findById(id);
         notFoundIfNull(user);
         if (Utils.isEmptyString(user.needEmailConfirmation)) {
             flash.error("registration.error.emailAlreadyConfirmed");

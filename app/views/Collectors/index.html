@@ -4,9 +4,9 @@
 <ul>
 #{list collections}
 <li>
-  <code>${_?.id}</code> : <strong>${_?.name}</strong>
+  <code>${_?.id}</code> : <strong>${_?.name}</strong> <a href="@{showCollection(_?.id)}" class="btn btn-sm"><i class="fa fa-eye"></i></a>
 </li>
 #{/list}
 </ul>
 
-#{a @collectors.createCollection() , class:'btn btn-primary' /}
+<a href="@{createCollection()}" class="btn btn-primary"> Create collection</a>

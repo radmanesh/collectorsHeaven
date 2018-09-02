@@ -7,7 +7,7 @@
 #{/set}
 
 <h3 class="text-center">${collection?.name}</h3>
-<img src="@{Collections.renderCollectionIcon(_?.id)}" alt="" class="collection-icon" />
+<img src="@{Collections.renderCollectionIcon(collection?.id)}" alt="" class="collection-icon" />
 <p>${collection?.description}</p>
 
 <hr />
@@ -26,3 +26,4 @@
   </div>
 #{/else}
 </div>
+#{a @Collectors.editCollectionItems(collection?.id), class:'btn btn-primary'} Edit Items #{/a}

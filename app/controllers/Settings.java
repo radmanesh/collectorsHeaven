@@ -17,7 +17,6 @@ import controllers.deadbolt.Restrictions;
 import models.Configuration;
 import play.Logger;
 import play.Play;
-import play.db.jpa.GenericModel;
 import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.With;
@@ -35,7 +34,7 @@ public class Settings extends Controller {
      * Index.
      */
     public static void index() {
-        List<Configuration> configs = GenericModel.findAll();
+        List<Configuration> configs = Configuration.findAll();
         for (Configuration config : configs) {
             String key = /* CONFIG_PREFIX + "." + */config.key;
             renderArgs.put(config.getName(), Configuration.get(key, ""));
@@ -47,7 +46,7 @@ public class Settings extends Controller {
      * All.
      */
     public static void all() {
-        List<Configuration> configs = GenericModel.findAll();
+        List<Configuration> configs = Configuration.findAll();
         render(configs);
     }
 
@@ -55,7 +54,7 @@ public class Settings extends Controller {
      * Delete all.
      */
     public static void deleteAll() {
-        GenericModel.deleteAll();
+        Configuration.deleteAll();
 
         flash.success(Messages.get("bongamonga.settings.SettingsSaved"));
         flash.keep();

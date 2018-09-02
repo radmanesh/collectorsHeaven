@@ -7,28 +7,38 @@
 #{/set}
 
 <h4>&{'createCollection.pageTitle'}</h4>
-#{form @editCollection(), class:'form' , role:'form' }
+#{form @createCollection(), class:'form' , role:'form' , method:'post' }
 
   <input type="hidden" name="collection.collector.id" value="${models.users.Collector.connectedCollector()?.id}" />
 
   %{ List<play.data.validation.Validation.Validator> validators = play.data.validation.Validation.getValidators(models.collection.Collection.class, 'name', 'collection'); }%
-  #{form.textField name:'name',bName:'collection',value:flash?.name , validators:validators , optionalAttr:utils.Utils.jvalidateTagsFromValidators(validators) /}
+  #{form.textField name:'name',bName:'collection',value:flash['collection.name'] , validators:validators , optionalAttr:utils.Utils.jvalidateTagsFromValidators(validators) /}
 
   %{ validators = play.data.validation.Validation.getValidators(models.collection.Collection.class, 'description', 'collection'); }%
-  #{form.longtextField name:'description',bName:'property',value:flash?.description , validators:validators , optionalAttr:utils.Utils.jvalidateTagsFromValidators(validators) /}
+  #{form.longtextField name:'description',bName:'collection',value:flash['collection.description'] , validators:validators , optionalAttr:utils.Utils.jvalidateTagsFromValidators(validators) /}
   
   #{field 'collection.icon'}
   <div class="form-group row">
     <label class="col-sm-2 col-form-label" for="${field.id}">&{field.name}</label>
     <div class=" col-sm-10">
-      <input type="image" name="${field.name}" id="${field.id}" class="form-control-file ${field.errorClass}" value="${flash?.icon}" />
-      #{if collection.icon && collection?.icon?.exists()}
+      <input type="file" name="${field.name}" id="${field.id}" class="form-control-file ${field.errorClass}" value="${flash?.icon}" />
+      #{if collection?.icon && collection?.icon?.exists()}
         <!-- <a class="currentAttachment" href="@{Collections.renderCollectionIcon(collection?.id)}">Download current file (${collection?.icon?.length()?.formatSize()})</a> -->
         <span class="removeAttachment"><input type="checkbox" name="${field.name}_delete_" value="true" /> (delete)</span>      
       #{/if}
     </div>
   </div>
   #{/field}
+  
+  <div class="custom-file-container" data-upload-id="myFirstImage">
+    <label>Upload File <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image">x</a></label>
+    <label class="custom-file-container__custom-file" >
+        <input type="file" class="custom-file-container__custom-file__custom-file-input" name="" accept="*" multiple>
+        <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
+        <span class="custom-file-container__custom-file__custom-file-control"></span>
+    </label>
+    <div class="custom-file-container__image-preview"></div>
+  </div>
   
   #{field 'collection.category'}
     <select name="${field.name}" id="${field.id}" class="custom-select">
@@ -45,3 +55,10 @@
   <button type="submit" class="btn btn-primary">&{'form.submit'}</button>
 
 #{/form}
+
+#{set 'moreScripts'}
+<script>
+    var upload = new FileUploadWithPreview('myFirstImage');
+</script>
+
+#{/set}

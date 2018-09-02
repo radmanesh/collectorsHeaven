@@ -1,0 +1,160 @@
+#{extends 'blank.html' /}
+#{set 'title'}&{'registration.register.title'} #{/set}
+
+#{set bodyClass:'app flex-row align-items-center' /}
+
+#{ifErrors}
+<div class="error">
+    <h2>Oops, please correct these errors</h2>
+</div>
+#{/ifErrors}
+
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card mx-4">
+      <div class="card-body p-4">
+        <h1>&{'registration.register.pageHeader'}</h1>
+        <p class="text-muted">&{'registration.register.pageHeader'}</p>
+        #{form @Registration.submitRegister(),id:'registerForm' }
+          #{field 'user.userName'}
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-fw fa-user"></i></span>
+            </div>
+            <input type="text" id="${field.id}" name="${field.name}" value="${field.value}" class="form-control" placeholder="&{'user.username'}">
+          </div>
+          #{/field}
+  
+          #{field 'user.email'}
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-fw fa-envelope"></i></span>
+            </div>
+            <input type="text" id="${field.id}" name="${field.name}" value="${field.value}" class="form-control" placeholder="&{'user.email'}">
+          </div>
+          #{/field}
+
+          #{field 'user.password'}          
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-fw fa-lock"></i></span>
+            </div>
+            <input type="password" name="${field.name}" value="${field.value}" class="form-control" placeholder="&{'user.password'}">
+          </div>
+          #{/field}
+  
+          #{field 'user.passwordConfirm'}
+          <div class="input-group mb-4">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-fw fa-lock"></i></span>
+            </div>
+            <input type="password" name="${field.name}" value="${field.value}" class="form-control" placeholder="&{'registration.repeatPassword'}">
+          </div>
+          #{/field}
+
+*{          
+          <legend>Conditions</legend>
+        
+          <div class="infos">
+              Checking this box indicates that you accept terms of use. 
+              If you do not accept these terms, do not use this website : 
+          </div>
+          
+          #{field 'user.termsOfUse'}
+          <div class="field"> 
+              <label for="${field.id}">I accept terms of use : </label>
+              <input id="${field.id}" type="checkbox" value="true" name="user.termsOfUse" #{if field.value}checked="true"#{/if}  class="${field.errorClass}" />
+              <span class="error">#{if field.error}Please accept terms of use#{/if}</span>
+          </div>
+          #{/field}
+}*
+  
+          <button type="submit" class="btn btn-block btn-success">&{'registration.submitBtn'}</button>
+        #{/form}
+      </div>
+    </div>
+  </div>
+</div>
+
+#{set 'moreScripts'}
+*{
+    #{validation.jQueryValidate class:models.users.User.class, key:'user' , formId:'#registerForm',fields:['userName','email','password','passwordConfirm'] /}
+}*
+  <script type="text/javascript" src="/public/vendor/jquery-validation/dist/jquery.validate.js"></script>
+  <script type="text/javascript" src="/public/vendor/jquery-validation/dist/additional-methods.js"></script>
+  <script>
+    
+    $(document).ready(function(){
+        $("#registerForm").validate({
+            rules: {
+            
+            'user.userName': {
+    required: true,
+    },
+            
+            'user.email': {
+    email: true,
+    pattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[a-zA-Z0-9](?:[\w-]*[\w])?/,
+    required: true,
+    },
+            
+            'user.password': {
+    required: true,
+    },
+            
+            'user.passwordConfirm': {
+    required: true,
+    equalTo: 'input[name="user.password"]',
+    },
+                        },
+            errorClass: "invalid-feedback",
+            validClass: "valid-feedback",
+            errorElement: "div",
+            errorPlacement: function ( error, element ) {
+                // Add the `help-block` class to the error element
+                error.addClass( "invalid-feedback" );
+    
+                // Add `has-feedback` class to the parent div.form-group
+                // in order to add icons to inputs
+                //element.parents( ".col-sm-5" ).addClass( "has-feedback" );
+    
+                if ( element.prop( "type" ) === "checkbox" ) {
+                    error.insertAfter( element.parent( "label" ) );
+                } else {
+                    error.insertAfter( element );
+                }
+    
+            },
+            success: function ( label, element ) {
+                // Add the span element, if doesn't exists, and apply the icon classes to it.
+                //if ( !$( element ).next( "span" )[ 0 ] ) {
+                    //$( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
+                //}
+            },
+            highlight: function ( element, errorClass, validClass ) {
+              $( element ).addClass( 'is-invalid' ).removeClass( 'is-valid' );
+              $( element ).parents( '.form-group' ).addClass( 'has-danger' ).removeClass( 'has-success' );
+            },
+            unhighlight: function (element, errorClass, validClass) {
+              $( element ).addClass( 'is-valid' ).removeClass( 'is-invalid' );
+              $( element ).parents( '.form-group' ).addClass( 'has-success' ).removeClass( 'has-danger' );
+            },
+    /*             highlight: function ( element, errorClass, validClass ) {
+                $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+                $( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+            },
+            unhighlight: function ( element, errorClass, validClass ) {
+                $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+                $( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+            },
+    */            
+            invalidHandler: function(event, validator) {
+              $(this).addClass('was-validated');
+            }
+    
+        }); 
+    });
+  </script>
+#{/set}
+
+
