@@ -4,7 +4,7 @@
 <ul>
 #{list collections}
 <li>
-  <code>${_?.id}</code> : <strong>${_?.name}</strong>
+  <a href="@{Collections.showCollection(_?.id)}"> <code>${_?.id}</code> : <strong>${_?.name}</strong></a>
 </li>
 #{/list}
 </ul>

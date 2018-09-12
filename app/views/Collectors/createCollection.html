@@ -1,10 +1,7 @@
 #{extends 'main.html' /} 
 #{set title:play.i18n.Messages.get('createCollection.pageTitle') /} 
 
-#{set 'moreStyles'}
-<style>
-</style>
-#{/set}
+#{set select2Enabled:"true"  /}
 
 <h4>&{'createCollection.pageTitle'}</h4>
 #{form @createCollection(), class:'form' , role:'form' , method:'post' }
@@ -23,32 +20,25 @@
     <div class=" col-sm-10">
       <input type="file" name="${field.name}" id="${field.id}" class="form-control-file ${field.errorClass}" value="${flash?.icon}" />
       #{if collection?.icon && collection?.icon?.exists()}
-        <!-- <a class="currentAttachment" href="@{Collections.renderCollectionIcon(collection?.id)}">Download current file (${collection?.icon?.length()?.formatSize()})</a> -->
+        <a class="currentAttachment" href="@{Collections.renderCollectionIcon(collection?.id)}">Download current file (${collection?.icon?.length()?.formatSize()})</a>
         <span class="removeAttachment"><input type="checkbox" name="${field.name}_delete_" value="true" /> (delete)</span>      
       #{/if}
     </div>
   </div>
   #{/field}
   
-  <div class="custom-file-container" data-upload-id="myFirstImage">
-    <label>Upload File <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image">x</a></label>
-    <label class="custom-file-container__custom-file" >
-        <input type="file" class="custom-file-container__custom-file__custom-file-input" name="" accept="*" multiple>
-        <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
-        <span class="custom-file-container__custom-file__custom-file-control"></span>
-    </label>
-    <div class="custom-file-container__image-preview"></div>
-  </div>
-  
   #{field 'collection.category'}
-    <select name="${field.name}" id="${field.id}" class="custom-select">
+    <select name="${field.name}" id="${field.id}" class="custom-select select2">
       <option selected value>Please select categories</option>
     </select>
   #{/field}
   
   #{field 'collection.tags'}
-    <select name="${field.name}" id="${field.id}" class="custom-select">
+    <select name="${field.name}" id="${field.id}" class="custom-select custom-tag" multiple="multiple"  >
       <option selected value>Please select tags</option>
+        #{list models.collection.Tag.find("select distinct t.name from Tag t").fetch() }
+          <option value="${_}">${_}</option> 
+        #{/list}
     </select>    
   #{/field}
 
@@ -58,7 +48,6 @@
 
 #{set 'moreScripts'}
 <script>
-    var upload = new FileUploadWithPreview('myFirstImage');
 </script>
 
 #{/set}

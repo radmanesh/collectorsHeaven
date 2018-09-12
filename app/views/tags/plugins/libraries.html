@@ -1,11 +1,10 @@
-#{set 'moreStyles'}
-  #{get 'moreStyles' /}
-  #{get '_moreStyles' /}
+#{set 'libStyles'}
+
   #{if summernoteEnabled}
     <link rel="stylesheet" href="@{'public/vendor/summernote/dist/summernote-bs4.css'}" />
   #{/if}
   #{if select2Enabled}
-    <link rel="stylesheet" href="@{'public/vendor/select2/select2.css'}" />
+    <link rel="stylesheet" href="@{'public/vendor/select2/dist/css/select2.css'}" />
   #{/if}
   #{if maskedEnabled}
   #{/if}
@@ -21,9 +20,8 @@
   #{/if}
 #{/set}
 
-#{set 'moreScripts'}
-  #{get 'moreScripts' /}
-  #{get '_moreScripts' /}
+#{set 'libScripts'}
+
   #{if summernoteEnabled}
     <script src="@{'public/vendor/summernote/dist/summernote-bs4.js'}"></script>
     <script type="text/javascript">
@@ -33,9 +31,12 @@
     </script>
   #{/if}
   #{if select2Enabled}
-    <script src="@{'public/vendor/select2/select2.js'}"></script>
+    <script src="@{'public/vendor/select2/dist/js/select2.full.js'}"></script>
     <script type="text/javascript">
       $('select.select2').select2();
+      $('select.custom-tag').select2({
+        tags: true
+      });
     </script>  
   #{/if}
   #{if maskedEnabled}

@@ -11,6 +11,7 @@ import java.util.List;
 import models.collection.Collection;
 import models.collection.CollectionItem;
 import play.mvc.Controller;
+import play.mvc.Router;
 import play.vfs.VirtualFile;
 import utils.Constants;
 
@@ -59,9 +60,9 @@ public class Collections extends Controller {
     public static void renderCollectionIcon(Long id) {
         Collection c = Collection.findById(id);
         if (c == null || c.icon == null || !c.icon.exists()) {
-            renderBinary(VirtualFile.fromRelativePath(Constants.collectionNoIconImagePath).getRealFile());
+            renderBinary(VirtualFile.fromRelativePath(Constants.collectionNoIconImagePath).inputstream());
         }
-        renderBinary(c.icon.getFile());
+        renderBinary(c.icon.get());
     }
 
     /**
@@ -70,15 +71,11 @@ public class Collections extends Controller {
      * @param id
      *            the id
      */
-    public static void renderCollectionItemIcon(Long id) {
+    public static void renderCollectionItemIcon(Long id,int index) {
         CollectionItem ci = CollectionItem.findById(id);
         if (ci == null || !ci.hasImage()) {
-            renderBinary(VirtualFile.fromRelativePath(Constants.itemNoImagePath).inputstream());
+            renderBinary((VirtualFile.fromRelativePath(Constants.itemNoImagePath)).inputstream());
         }
-        int index = 0;
-        Integer i = params.get("index", Integer.class);
-        if (i != null)
-            index = i.intValue();
         renderBinary(ci.images.get(index).get());
     }
 
