@@ -1,0 +1,59 @@
+#{extends 'adminLayout.html' /} #{set title:play.i18n.Messages.get('admin.dashboard.pageTitle') /}
+
+#{set 'moreStyles'}
+  #{get '_moreStyles' /}
+#{/set}
+
+#{set datatablesEnabled:true /}
+
+<h4 class="display-4">&{'admin.dashboard.pageHeader'}</h4>
+
+<div class="row">
+  <div class="card text-white bg-primary mb-3 col-md-3">
+    <div class="card-body">
+      <h5 class="card-title">&{'admin.dashboard.properties.box.title'}</h5>
+      <p class="card-text">
+        <i class="fa fa-home fa-3x"></i> ${models.collection.Collection.count("isDeleted=false")}
+      </p>
+    </div>
+  </div>
+  <div class="card text-white bg-success mb-3 col-md-3">
+    <div class="card-body">
+      <h5 class="card-title">&{'admin.dashboard.users.box.title'}</h5>
+      <p class="card-text">
+        <i class="fa fa-home fa-3x"></i> ${models.users.User.count("deleted=false")}
+      </p>
+    </div>
+  </div>
+  <div class="card text-white bg-info mb-3 col-md-3">
+    <div class="card-body">
+      <h5 class="card-title">&{'admin.dashboard.agencies.box.title'}</h5>
+      <p class="card-text">
+        <i class="fa fa-home fa-3x"></i> TBI
+      </p>
+    </div>
+  </div>
+  <div class="card text-white bg-warning mb-3 col-md-3">
+    <div class="card-body">
+      <h5 class="card-title">&{'admin.dashboard.online.users.box.title'}</h5>
+      <p class="card-text">
+        <i class="fa fa-home fa-3x"></i> TBI
+      </p>
+    </div>
+  </div>
+</div>
+<hr />
+<div class="panel">
+  <a href="@{categories()}" class="btn btn-info px-2">Categories</a>
+</div>
+
+#{deadbolt.restrict roles:[ ['admin']]}
+<div class="mt-5">
+  <a href="" class="btn btn-danger px-2">Maintenance</a>
+</div>
+#{/deadbolt.restrict}
+
+#{set 'moreScripts'}
+  #{get '_moreScripts' /}
+#{/set}
+

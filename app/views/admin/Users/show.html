@@ -1,0 +1,76 @@
+#{extends 'adminLayout.html' /}
+#{set title:play.i18n.Messages.get('admin.users.show.pageTitle') /}
+
+#{set 'moreStyles'}
+  #{get '_moreStyles' /}
+#{/set}
+  
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 class="display-4">&{'admin.users.show.pageHeader',user?.userName} </h4>
+      <div class="form-group row">
+        <label class="col-md-3 col-form-label">&{'admin.users.username'}</label>
+        <div class="col-md-9">
+          <p class="form-control-static">${user?.userName}</p>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-md-3 col-form-label">&{'admin.users.fullName'}</label>
+        <div class="col-md-9">
+          <p class="form-control-static">${user?.fullName}</p>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-md-3 col-form-label">&{'admin.users.email'}</label>
+        <div class="col-md-9">
+          <p class="form-control-static">${user?.email} ${user?.isEmailConfirmed() ? (['<span class="badge badge-success">'.raw() ,messages.get('admin.users.email.confirmed.lbl').raw(),'</span>'.raw()] as String[]).join(' ').raw() : (['<span class="badge badge-warning">'.raw(), messages.get('admin.users.email.unconfirmed.lbl').raw(), "</span>".raw()] as String[]).join(' ').raw() } </p>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-md-3 col-form-label">&{'admin.users.mobile'}</label>
+        <div class="col-md-9">
+          <p class="form-control-static">${user?.mobileNo}</p>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-md-3 col-form-label">&{'admin.users.roles'} </label>
+        <div class="col-md-9">
+          <ul class="list-inline">
+            #{list user?.roles }
+            <li class="list-inline-item"><a href="@{removeRoleFromUser(user?.id,_?.id)}" class="btn btn-link"><i class="text-danger fa fa-fw fa-remove"></i></a><span class="badge badge-pill badge-dark">${_}</span></li>
+            #{/list}
+          </ul>
+          #{form @addRoleToUser(user?.id) , class:'form-horizontal'}
+            <input type="hidden" name="id" value="${user?.id}" />
+            <select name="roleId" id="add-role-select" class="form-control">
+            #{list models.users.UserRole.allRoles()}
+              <option value="${_?.id}">${_}</option>
+            #{/list}
+            </select>
+            <input type="submit" class="form-control" value="&{'admin.users.addRole.btn'}" />
+          #{/form}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <a class="btn btn-secondary disabled"  href="@{edit(user?.id)}" aria-disabled="true" type="button" role="button" title="&{'admin.users.edit.btn'}">&{'admin.users.edit.btn'}</a>
+        #{if user?.confirmed}
+          <a href="@{deactivate(user?.id)}" class="btn btn-danger">&{'admin.users.deactivate.btn'}</a>
+        #{/if}
+        #{else}
+          <a href="@{activate(user?.id)}" class="btn btn-info">&{'admin.users.activate.btn'}</a>
+        #{/else}
+      </div>
+    </div>
+  </div>
+</div>
+
+#{set 'moreScripts'}
+  #{get 'moreScripts' /}
+#{/set}
+

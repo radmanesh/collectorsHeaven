@@ -10,6 +10,7 @@ import java.util.List;
 
 import controllers.security.Security;
 import models.collection.Collection;
+import models.collection.CollectionItem;
 import models.users.User;
 import models.users.UserProfile;
 import play.data.validation.Validation;
@@ -17,6 +18,7 @@ import play.mvc.Before;
 import play.mvc.Controller;
 import play.mvc.Router;
 import play.mvc.Util;
+import utils.Constants;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -40,7 +42,8 @@ public class Application extends Controller {
      */
     public static void index() {
         List<Collection> collections = Collection.all().fetch();
-        render(collections);
+        List<CollectionItem> items = CollectionItem.all().fetch(Constants.defaultNumberOfItemsToShow);
+        render(collections,items);
     }
 
     /**

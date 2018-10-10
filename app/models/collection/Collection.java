@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package models.collection;
 
@@ -25,29 +25,27 @@ import play.db.jpa.Model;
 public class Collection extends Model implements Taggable<Collection> {
 
     @ManyToOne
-    public Collector collector;
-    
+    public Collector owner;
+
     @OneToMany(mappedBy="collection")
     public List<CollectionItem> items = new ArrayList<>();
-    
+
     public String name;
-    
-    /** The about me. */
+
     @Lob
-    @Column(length=1024)
-    @MaxSize(1024)
+    @Column(length=4096)
+    @MaxSize(4096)
     public String description;
-    
+
     public Blob icon;
-    
+
     @ManyToOne
     public FileAttachment collectionIcon;
-    
+
     @ManyToMany(cascade=CascadeType.PERSIST)
     public Set<Tag> tags;
-    
-    @ManyToOne
-    public Category category;
+
+    public boolean isDeleted = false;
 
     /* (non-Javadoc)
      * @see models.collection.Taggable#getTags()

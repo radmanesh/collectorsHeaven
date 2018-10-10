@@ -1,0 +1,22 @@
+#{extends 'adminLayout.html' /}
+#{set title:play.i18n.Messages.get('admin.users.index.pageTitle') /}
+
+#{set 'moreStyles'}
+  #{get '_moreStyles' /}
+#{/set}
+
+#{set datatablesEnabled:true /}
+  
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 class="display-4">&{'admin.users.index.pageHeader'}</h4>
+        #{plugins.dataTable tableName:'users2Table',updateUrl:@admin.Users.usersdatadable(),key:'' /}
+    </div>
+  </div>
+</div>
+
+#{set 'moreScripts'}
+  #{get '_moreScripts' /}
+#{/set}
+

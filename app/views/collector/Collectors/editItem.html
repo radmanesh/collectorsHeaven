@@ -1,0 +1,95 @@
+#{extends 'main.html' /} 
+#{set title:play.i18n.Messages.get('editItem.pageTitle') /} 
+#{set 'moreStyles' }
+ style>
+
+</style>
+#{/set}
+
+#{set select2Enabled:"true"  /}
+
+<h4>&{'editItem.pageTitle'}</h4>
+#{form @updateItem(item?.id), class:'form' , role:'form' , enctype:'multipart/form-data', class:'' }
+
+  %{ List<play.data.validation.Validation.Validator> validators = play.data.validation.Validation.getValidators(models.collection.CollectionItem.class, 'name', 'item'); }%
+  #{form.textField name:'name',bName:'item',value:item?.name , validators:validators , optionalAttr:utils.Utils.jvalidateTagsFromValidators(validators) /}
+
+  %{ validators = play.data.validation.Validation.getValidators(models.collection.CollectionItem.class, 'description', 'item'); }%
+  #{form.longtextField name:'description',bName:'item',value:flash['item.description']?:item?.description , validators:validators , optionalAttr:utils.Utils.jvalidateTagsFromValidators(validators) /}
+  
+  #{field 'item.icon'}
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label" for="${field.id}">&{field.name}</label>
+    <div class=" col-sm-10">
+      <input type="file" name="${field.name}" id="${field.id}" class="form-control-file ${field.errorClass}" value="${icon?.icon}" />
+      #{if item?.icon && item?.icon?.exists()}
+        <!-- <a class="currentAttachment" href="@{Collections.renderCollectionItemIcon(item?.id)}">Download current file (${item?.icon?.length()?.formatSize()})</a> -->
+        <span class="removeAttachment"><input type="checkbox" name="${field.name}_delete_" value="true" /> (delete)</span>      
+      #{/if}
+    </div>
+  </div>
+  #{/field}
+
+  #{field 'item.images'}
+  <div class="custom-file-container" data-upload-id="myUniqueUploadId">
+      <label>Upload File <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image">x</a></label>
+
+      <label class="custom-file-container__custom-file" >
+          <input type="file" name="images" class="custom-file-container__custom-file__custom-file-input" accept="*" multiple>
+          <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
+          <span class="custom-file-container__custom-file__custom-file-control"></span>
+      </label>
+      <div class="custom-file-container__image-preview"></div>
+  </div>
+  #{/field}
+  
+  #{field 'item.category'}
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label" for="${field.id}">&{field.name}</label>
+    <div class=" col-sm-10">  
+      <select name="${field.name}.id" id="${field.id}" class="form-control select2 select2-single">
+        <option selected value disabled>Please select categories</option>
+        #{list models.collection.Category.findAll() }
+            <option value="${_?.id}" ${item?.category?.equals(_) ? 'selected' : ''}>${_?.getNameChain()}</option>
+        #{/list}
+      </select>
+    </div>
+  </div>
+  #{/field}
+  
+  #{field 'item.tags'}
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label" for="${field.id}">&{field.name}</label>
+    <div class=" col-sm-10">
+      <select name="${field.name}" id="${field.id}" class="form-control tags-select select2-multiple" multiple="multiple" data-tags="true" data-allow-clear="true" data-placeholder="Please select tags">
+        #{list models.collection.Tag.findAll() }
+          <option value="${_}" ${item?.tags?.contains(_) ? 'selected' : ''}>${_}</option>
+        #{/list}
+      </select>
+    </div>
+  </div>    
+  #{/field}
+
+
+  %{ validators = play.data.validation.Validation.getValidators(models.collection.CollectionItem.class, 'creationDate', 'item'); }%
+  #{form.textField name:'creationDate',bName:'item',value:flash['item.creationDate']?:item?.creationDate , validators:validators , optionalAttr:utils.Utils.jvalidateTagsFromValidators(validators) /}
+  
+
+  %{ validators = play.data.validation.Validation.getValidators(models.collection.CollectionItem.class, 'mainMaterial', 'item'); }%
+  #{form.textField name:'mainMaterial',bName:'item',value:flash['item.mainMaterial']?:item?.mainMaterial , validators:validators , optionalAttr:utils.Utils.jvalidateTagsFromValidators(validators) /}
+  
+  %{ validators = play.data.validation.Validation.getValidators(models.collection.CollectionItem.class, 'condition', 'item'); }%
+  #{form.enumField name:'condition',bName:'item',selected:flash['item.condition']?:item?.condition , values: models.collection.CollectionItem.Condition.values() ,validators:validators , optionalAttr:utils.Utils.jvalidateTagsFromValidators(validators) /}
+
+
+  <button type="submit" class="btn btn-primary">&{'form.submit'}</button>
+
+#{/form}
+
+#{set 'moreScripts'}
+<script>
+/*   $('select.tags-select').select2({
+	  tags: true
+  });
+ */</script>
+#{/set}

@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 
 import play.data.validation.Unique;
 import play.db.jpa.Model;
+import play.i18n.Messages;
 
 @Entity
 public class Category extends Model {
@@ -46,6 +47,27 @@ public class Category extends Model {
     
     public Category addCategory(String name) {
         return new Category(this,name);
+    }
+    
+    public List<Category> getChain(){
+        List<Category> chain = new ArrayList<>();
+        Category c = this;
+        while(c!=null) {
+            chain.add(0, c);
+            c=c.parent;
+        }
+        return chain;
+    }
+    
+    public String getNameChain() {
+        StringBuilder sb = new StringBuilder();
+        for(Category c:getChain()) {
+            sb.append(Messages.get(c.name)).append(" - ");
+        }
+        if(sb.toString().endsWith(" - ")) {
+            return sb.toString().substring(0, sb.length()-3);
+        }
+        return sb.toString();
     }
     
 }

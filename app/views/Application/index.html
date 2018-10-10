@@ -1,12 +1,102 @@
 #{extends 'main.html' /}
-#{set title:'Home' /}
+#{set title:'خانه' /}
 
-<ul>
-#{list collections}
-<li>
-  <a href="@{Collections.showCollection(_?.id)}"> <code>${_?.id}</code> : <strong>${_?.name}</strong></a>
-</li>
-#{/list}
-</ul>
+<section id="cb-slider-1-6" class="cb-slider-block cb-slider-1-6">
+  <div class="carousel slider6_fade cb-slider6" data-ride="carousel" data-interval="6000" data-pause="hover" id="slider6">
+    <div class="carousel-inner">
+      <div class="item active carousel-item h-100" style="background-image:url('/public/img/banner/banner-01.jpg');">
+        <img src="@{'/public/img/banner/banner-01.jpg'}" alt="">
+        <div class="carousel-caption caption">
+          <div class="caption_text">
+            <h1>Video Slider 1</h1>
+            <p>This Slider Supports Local Hosted Vids</p>
+            <a href="#" class="main_button">Buy Now</a>
+          </div>
+        </div>
+      </div>
+      <div class="item carousel-item">
+        <img src="@{'/public/img/banner/banner-02.jpg'}" alt="">
+        <div class="carousel-caption caption">
+          <div class="caption_text h-100">
+            <h1>Video Slider 2</h1>
+            <p>This Slider Supports Local Hosted Vids</p>
+            <a href="#" class="main_button">Buy Now</a>
+          </div>
+        </div>
+      </div>
+      <div class="item carousel-item">
+        <img src="@{'/public/img/banner/banner-03.jpg'}" alt="">
+        <div class="carousel-caption caption">
+          <div class="caption_text h-100">
+            <h1>Video Slider 3</h1>
+            <p>This Slider Supports Local Hosted Vids</p>
+            <a href="#" class="main_button">Buy Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="left carousel-control control_left h-100" href="#slider6" role="button" data-slide="prev"> <span class="fa fa-arrow-left control_icons" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a>
+    <a class="right carousel-control control_right h-100" href="#slider6" role="button" data-slide="next"> <span class="fa fa-arrow-right control_icons" aria-hidden="true">`</span> <span class="sr-only">Next</span> </a>
+  </div>
+</section>
+<!-- 
+<section id="cb-portfolio-1-4" class="cb-portfolio-block cb-portfolio-1-4">
+  <div class="cb-portfolio4 collections-portfolio">
+    <div class="container">
+      <div class="intro">
+        <h3>محبوب‌ها</h3>
+      </div>
+      <div class="row nomargin">
+      #{list collections}
+        <div class="col-md-4">
+          <div class="content collection-item">
+            <span class="item-favorites"><i class="fa fa-heart text-danger"></i> ۷۵</span>
+            <a href="@{Collections.showCollection(_?.id)}" class="overlay"> <span class="ov-col-title">${_?.name}</span> </a>
+            <img src="@{Collections.renderCollectionIcon(_?.id)}" alt="Portfolio">
+            <div class="collection-info">
+              <h6 class="text-center">${_?.name}</h6>
+              <span class=""><i class="fa fa-trophy"></i>${_?.items?.size()} آیتم</span>
+            </div>
+          </div>
+        </div>
+      #{/list}
+      </div>
+    </div>
+  </div>
+</section>
+-->
+<section id="cb-portfolio-1-4" class="cb-portfolio-block cb-portfolio-1-4">
+  <div class="cb-portfolio4 items-portfolio">
+    <div class="container">
+      <div class="intro">
+        <h3>محبوب‌ها</h3>
+      </div>
+      <div class="row nomargin">
+      #{list items}
+        <div class="col-md-4">
+          <div class="content collection-item">
+            <span class="item-favorites"><i class="fa fa-heart text-danger"></i> ۷۵</span>
+            <a href="@{Collections.showItem(_?.id)}" class="overlay"> <span class="ov-col-title">${_?.name}</span> </a>
+            <img src="@{Collections.renderCollectionItemIcon(_?.id)}" alt="Portfolio">
+            <div class="item-info">
+              <h6 class="text-center">${_?.name}</h6>
+              <span class=""><i class="fa fa-site-map"></i> ${_?.category?.name}</span>
+              <div class="tags-container">
+                #{list item?.tags}
+                <span class="badge badge-dark">${_?.name}</span>
+                #{/list}
+              </div>
+            </div>
+            <div class="dealer-info">
+              <a href="#">${_?.itemOwner?.getDisplayName()} </a>
+            </div>
+          </div>
+        </div>
+      #{/list}
+      </div>
+    </div>
+  </div>
+</section>
 
 #{a @Collectors.createCollection() , class:'btn btn-primary'} &{'collectors.create'} #{/a}
+#{a @collector.Collectors.createItem() , class:'btn btn-primary'} &{'collectors.createItem'} #{/a}

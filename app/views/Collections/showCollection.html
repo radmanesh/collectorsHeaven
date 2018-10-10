@@ -7,6 +7,7 @@
 #{/set}
 
 <h3 class="text-center">${collection?.name}</h3>
+<h5 class="text-center">by <strong>${collection?.owner?.user?.userName}</strong></h5>
 <div class="tags-container">
   #{list collection?.tags}
   <span class="badge badge-dark">${_?.name}</span>
@@ -16,25 +17,43 @@
 <p>${collection?.description?.raw()}</p>
 
 <hr />
-<div class="row">
-#{list items:collection?.items, as:'item'}
-  <div class="col-lg-3 col-md-4 col-sm-6">
-    <h5><strong>${item?.name}</strong></h5>
-    #{if item?.hasImage()}
-      #{list items:item?.images , as: 'img'}
-        <img src="@{Collections.renderCollectionItemIcon(item?.id,img_index)}" alt="" class="collection-item-icon" />
-        <div class="img-controld btn-group" role="group" aria-label="Basic example">
-          <a type="button" href="" class="btn btn-primary">View</a>
-          <a type="button" href="" class="btn btn-secondary">Edit</a>
-          <a type="button" href="" class="btn btn-danger">Delete</a>
+
+<section id="cb-portfolio-1-1" class="cb-portfolio-block cb-portfolio-1-1">
+  <div class="cb-portfolio1">
+    <div class="container">
+      <div class="title">
+        <h3>آیتم‌ها</h3>
+      </div>
+      <div class="filters">
+        <button class="btn" data-rel="all">All</button>
+        <button class="btn" data-rel="category1">Websites</button>
+        <button class="btn" data-rel="category2">Flyers</button>
+        <button class="btn" data-rel="category3">Business Cards</button>
+      </div>
+      <div style="clear: both;"></div>
+      <div id="cb-portfolio">
+      #{list items:collection?.items, as:'item'}
+        <div class="tile scale-anm category1 all">
+          #{if item?.hasImage()}
+            <img src="@{Collections.renderCollectionItemIcon(item?.id,0)}" alt="Images">
+          #{/if}
+          #{else}
+          #{/else}
+          <strong>${item?.name}</strong>
         </div>
-      #{/list}
-    #{/if}
+      #{/list} 
+      #{else}
+        <div class="col-md-12 text-center">
+          <p>&{'collection.noItems'}</p>
+        </div>
+      #{/else}
+      </div>
+      <div style="clear: both;"></div>
+    </div>
   </div>
-#{/list}
-#{else}
-  <div class="col-md-12 text-center">
-    <p>&{'collection.noItems'}</p>  
-  </div>
-#{/else}
-</div>
+</section>
+
+#{if collection?.collector?.user?.id==models.users.User.connectedUser()?.id}
+<hr />
+<a href="@{Collectors.editCollection(collection?.id)}" class="btn btn-primary">Edit Collection</a>
+#{/if}

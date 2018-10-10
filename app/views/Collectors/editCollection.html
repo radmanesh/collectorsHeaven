@@ -1,5 +1,11 @@
 #{extends 'main.html' /} 
 #{set title:play.i18n.Messages.get('editCollection.pageTitle') /} 
+#{set 'moreStyles' }
+ <link rel="stylesheet" type="text/css" href="https://unpkg.com/file-upload-with-preview/dist/file-upload-with-preview.min.css">
+<style>
+
+</style>
+#{/set}
 
 #{set select2Enabled:"true"  /}
 
@@ -82,11 +88,15 @@
   </div>
   #{/field}
   #{field 'item.images'}
-  <div class="form-group row"  id="${field.id}_group">
-    <label class="col-sm-2 col-form-label" for="${field.id}">&{field.name}</label>
-    <div class="col-sm-10">
-      <input type="file" multiple="multiple" name="images" />
-    </div>
+  <div class="custom-file-container" data-upload-id="myUniqueUploadId">
+      <label>Upload File <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image">x</a></label>
+
+      <label class="custom-file-container__custom-file" >
+          <input type="file" name="images" class="custom-file-container__custom-file__custom-file-input" accept="*" multiple>
+          <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
+          <span class="custom-file-container__custom-file__custom-file-control"></span>
+      </label>
+      <div class="custom-file-container__image-preview"></div>
   </div>
   #{/field}
 
@@ -95,4 +105,8 @@
 #{/form}
 
 #{set 'moreScripts'}
+  <script src="https://unpkg.com/file-upload-with-preview"></script>
+  <script>
+    const upload = new FileUploadWithPreview('myUniqueUploadId', true)
+  </script>
 #{/set}

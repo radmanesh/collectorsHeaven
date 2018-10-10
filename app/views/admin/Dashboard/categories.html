@@ -1,0 +1,49 @@
+#{extends 'adminLayout.html' /} 
+
+#{set title:play.i18n.Messages.get('admin.dashboard.pageTitle') /} 
+#{set 'moreStyles'} 
+  #{get '_moreStyles' /} 
+#{/set} 
+
+#{set datatablesEnabled:true /}
+
+<div class="container">
+  <h4 class="display-4">&{'admin.categories.pageHeader'}</h4>
+  <ul>
+    #{list categories}
+    <li>
+      ${_?.name} 
+      #{if _?.categories!=null && _?.categories?.size()>0} 
+        <ul>
+        #{list _?.categories}
+        <li>${_?.name}</li> 
+        #{/list} 
+        </ul>
+      #{/if}
+    </li>
+    #{/list}
+  </ul>
+    
+  #{form @createCategory() , role:'form'}
+    <input type="text" name="name" />
+    
+    <select name="parent" placeholder="select one">
+      <option value="" selected disabled>Please select a category</option>
+      #{list models.collection.Category.findAll()}
+        <option value="${_?.id}">${_?.name}</option>
+      #{/list}
+    </select>
+    <input type="submit" value="submit" />
+  #{/form}
+
+  #{deadbolt.restrict roles:[ ['admin']]}
+  <div class="mt-5">
+    <a href="" class="btn btn-danger px-2">Maintenance</a>
+  </div>
+  #{/deadbolt.restrict} 
+</div>
+
+
+
+#{set 'moreScripts'} #{get '_moreScripts' /} #{/set}
+

@@ -1,0 +1,8 @@
+#{extends 'adminLayout.html' /}
+#{set title:play.i18n.Messages.get('admin.users.roles.pageTitle') /}
+<h4 class="display-4">&{'admin.users.roles.pageHeader'}</h4>
+<ul>
+#{list roles}
+   <li><a href="@{showRole(_?.id)}" class="">${_} <i class="fa fa-search"></i></a></li>
+#{/list}
+</ul>

@@ -1,0 +1,58 @@
+#{extends 'main.html' /} 
+#{set title:play.i18n.Messages.get('showItem.pageTitle') /} 
+
+#{set 'moreStyles'}
+<style>
+</style>
+#{/set}
+
+#{set select2Enabled:"true"  /}
+
+
+
+<h2 class="text-center">${item?.name}</h2>
+<h4 class="text-center"><small>by </small>${item?.itemOwner?.name}</h4>
+
+<div class="category-container">
+  <ul class="list-inline">
+  #{list item?.category?.getChain()}
+    <li>&{_?.name} </li>
+  #{/list}
+  </ul>
+</div>
+
+<div class="tags-container">
+  #{list item?.tags}
+  <span class="badge badge-dark">${_?.name}</span>
+  #{/list}
+</div>
+
+<img src="@{Collections.renderCollectionItemIcon(item?.id)}" alt="" class="collection-icon" />
+<p>${item?.description?.raw()}</p>
+<hr />
+<div class="row">
+  <div class="col-md-4">
+    Creation date: ${item?.creationDate}
+  </div>
+  <div class="col-md-4">
+    Condition: &{item?.condition}
+  </div>
+  <div class="col-md-4">
+    Material: ${item?.mainMaterial}
+  </div>
+</div>
+#{if item?.hasImage()}
+  #{list items:item?.images , as: 'img'}
+  <div class="item-icon-container">
+    <img src="@{Collections.renderCollectionItemIcon(item?.id,img_index-1)}" alt="" class="collection-item-icon" />
+    <div class="img-controld btn-group" role="group" aria-label="Basic example">
+      <a type="button" href="" class="btn btn-primary">View</a>
+      <a type="button" href="" class="btn btn-secondary">Edit</a>
+      <a type="button" href="" class="btn btn-danger">Delete</a>
+    </div>
+  </div>
+  #{/list}
+#{/if}
+
+
+#{a @editItem(item?.id), class:'btn btn-primary'} Edit Item #{/a}

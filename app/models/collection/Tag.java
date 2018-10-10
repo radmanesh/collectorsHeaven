@@ -22,9 +22,9 @@ public class Tag extends Model implements Comparable<Tag> {
     }
 
     public static Tag findOrCreateByName(String name) {
-        Tag tag = Tag.find("byName", name).first();
+        Tag tag = Tag.find("name", name).first();
         if (tag == null) {
-            tag = new Tag(name);
+            return new Tag(name).save();
         }
         return tag;
     }

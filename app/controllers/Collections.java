@@ -51,6 +51,12 @@ public class Collections extends Controller {
         render(collectionItem);
     }
 
+    public static void showItem(Long id) {
+        CollectionItem item = CollectionItem.findById(id);
+        notFoundIfNull(item);
+        render(item);
+    }
+
     /**
      * Render collection icon.
      *
@@ -77,6 +83,14 @@ public class Collections extends Controller {
             renderBinary((VirtualFile.fromRelativePath(Constants.itemNoImagePath)).inputstream());
         }
         renderBinary(ci.images.get(index).get());
+    }
+    
+    public static void renderCollectionItemIcon(Long id) {
+        CollectionItem ci = CollectionItem.findById(id);
+        if (ci == null || ci.icon == null || !ci.icon.exists()) {
+            renderBinary((VirtualFile.fromRelativePath(Constants.itemNoImagePath)).inputstream());
+        }
+        renderBinary(ci.icon.get());        
     }
 
 }

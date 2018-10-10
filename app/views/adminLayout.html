@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="${lang}" *{ ${lang=="fa" ? "dir='rtl'":""} }* >
+<head>
+<meta charset="${_response_encoding}">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="BongaMonga Admin Front-End">
+<meta name="author" content="Arman Radmanesh <radmanesh@gmail.com>">
+<meta name="keyword" content="">
+<link rel="shortcut icon" type="image/png" href="@{'/public/img/favicon.png'}">
+<title>#{get 'title' /}</title>
+
+<!-- Icons -->
+<link rel="stylesheet" href="@{'/public/vendor/font-awesome/css/font-awesome.min.css'}">
+#{include 'tags/plugins/libraries.html' /}
+
+#{get 'moreStyles' /}
+
+<link href="@{'/public/css/bongamonga.admin.css'}" rel="stylesheet">
+
+</head>
+<body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
+  <header class="app-header navbar">
+    <button class="navbar-toggler mobile-sidebar-toggler d-lg-none mr-auto" type="button">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="@{admin.Dashboard.index()}"></a>
+    <a href="@{Application.index}" class="nav-item">&{'admin.navbar.user.home'}</a>
+    <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  </header>
+  <div class="app-body">
+    <div class="sidebar">
+      <nav class="sidebar-nav">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" href="@{admin.Dashboard.index()}"><i class="fa fa-tachometer"></i> &{'admin.sidenav.dashboard'}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href=""><i class="fa fa-home"></i> &{'admin.sidenav.property'}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="@{admin.Users.index()}"><i class="fa fa-user"></i> &{'admin.sidenav.users'} </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="@{admin.Users.roles()}"><i class="fa fa-id-badge"></i> &{'admin.sidenav.roles'} </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href=""><i class="fa fa-university"></i> &{'admin.sidenav.agents'} </a>
+          </li>
+          <li class="nav-item nav-dropdown">
+            <a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-star"></i> &{'admin.sidenav.others'}</a>
+            <ul class="nav-dropdown-items">
+              <li class="nav-item">
+                <a class="nav-link" href="@{Settings.index()}" target="_top"><i class="fa fa-cogs"></i> &{'admin.sidenav.settings'}</a>
+              <li class="nav-item">
+                <a class="nav-link"  target="_top"><i class="fa fa-star"></i> other</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <button class="sidebar-minimizer brand-minimizer" type="button"></button>
+    </div>
+
+    <!-- Main content -->
+    <main class="main">
+
+      <!-- Breadcrumb -->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#"></a>&{'admin.breadcrumb.home'}</li>
+        <li class="breadcrumb-item active">&{'admin.breadcrumb.dashboard'}</li>
+
+        <!-- Breadcrumb Menu-->
+        <li class="breadcrumb-menu d-md-down-none">
+          <div class="btn-group" role="group" aria-label="Button group">
+            <a class="btn" href="#"><i class="icon-speech"></i></a>
+            <a class="btn" href="@{admin.Dashboard.index()}"><i class="fa fa-tachometer"></i> &nbsp;&{'admin.breadcrumb.dashboard'}</a>
+            <a class="btn" href="@{Settings.index()}"><i class="fa fa-cogs"></i> &nbsp;&{'admin.breadcrumb.settings'}</a>
+          </div>
+        </li>
+      </ol>
+
+      <div class="container-fluid">
+        <div class="row notifications-container">
+          #{ifErrors}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <strong>&{'flash.error.admin.strong'}</strong>
+              <ul class="list-unstyled">
+                #{errors}
+                   <li>&{error}</li>
+                #{/errors}                
+              </ul>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          #{/ifErrors}
+          #{else}
+            #{if flash.success}
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>&{'flash.success.admin.strong'}</strong> &{flash.success}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            #{/if}
+            #{if flash.error || error}
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>&{'flash.error.admin.strong'}</strong> &{error ?: flash.error}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            #{/if}
+          #{/else}
+        </div>
+        <div id="ui-view">
+          #{doLayout /}
+        </div>
+      </div>
+      <!-- /.conainer-fluid -->
+    </main>
+
+
+  </div>
+
+  <footer class="app-footer">
+    <span>&copy; 2018 BongaMonga.</span>
+  </footer>
+
+  <script src="@{'/public/vendor/jquery/jquery.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+  <script src="@{'/public/vendor/popper.js/dist/umd/popper.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+  <script src="@{'/public/vendor/bootstrap/dist/js/bootstrap.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+  <script src="@{'/public/vendor/pace-progress/pace.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+  #{get 'moreScripts' /}
+</body>
+</html>

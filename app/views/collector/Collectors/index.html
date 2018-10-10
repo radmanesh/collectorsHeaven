@@ -1,0 +1,13 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+<ul>
+#{list items}
+<li>
+  <code>${_?.id}</code> : <strong>${_?.name}</strong> <a href="@{showItem(_?.id)}" class="btn btn-sm"><i class="fa fa-eye"></i></a>
+  <a href="@{editItem(_?.id)}" class="btn btn-sm"><i class="fa fa-edit"></i></a>
+</li>
+#{/list}
+</ul>
+
+<a href="@{createItem()}" class="btn btn-primary"> Create Item</a>

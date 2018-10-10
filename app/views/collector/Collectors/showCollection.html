@@ -1,0 +1,43 @@
+#{extends 'main.html' /} 
+#{set title:play.i18n.Messages.get('showCollection.pageTitle') /} 
+
+#{set 'moreStyles'}
+<style>
+</style>
+#{/set}
+
+#{set select2Enabled:"true"  /}
+
+<h3 class="text-center">${collection?.name}</h3>
+<div class="tags-container">
+  #{list collection?.tags}
+  <span class="badge badge-dark">${_?.name}</span>
+  #{/list}
+</div>
+<img src="@{Collections.renderCollectionIcon(collection?.id)}" alt="" class="collection-icon" />
+<p>${collection?.description?.raw()}</p>
+
+<hr />
+<div class="row">
+#{list items:collection?.items, as:'item'}
+  <div class="col-lg-3 col-md-4 col-sm-6">
+    <h5><strong>${item?.name}</strong></h5>
+    #{if item?.hasImage()}
+      #{list items:item?.images , as: 'img'}
+        <img src="@{Collections.renderCollectionItemIcon(item?.id,img_index-1)}" alt="" class="collection-item-icon" />
+        <div class="img-controld btn-group" role="group" aria-label="Basic example">
+          <a type="button" href="" class="btn btn-primary">View</a>
+          <a type="button" href="" class="btn btn-secondary">Edit</a>
+          <a type="button" href="" class="btn btn-danger">Delete</a>
+        </div>
+      #{/list}
+    #{/if}
+  </div>
+#{/list}
+#{else}
+  <div class="col-md-12 text-center">
+    <p>&{'collection.noItems'}</p>  
+  </div>
+#{/else}
+</div>
+#{a @Collectors.editCollectionItems(collection?.id), class:'btn btn-primary'} Edit Items #{/a}
