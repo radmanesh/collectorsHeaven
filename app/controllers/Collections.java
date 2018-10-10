@@ -6,10 +6,13 @@
  */
 package controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import models.collection.Category;
 import models.collection.Collection;
 import models.collection.CollectionItem;
+import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Router;
 import play.vfs.VirtualFile;
@@ -40,23 +43,36 @@ public class Collections extends Controller {
         render(collection);
     }
 
-    /**
-     * Show collection item.
-     *
-     * @param id
-     *            the id
-     */
-    public static void showCollectionItem(Long id) {
-        CollectionItem collectionItem = Collection.findById(id);
-        render(collectionItem);
-    }
-
     public static void showItem(Long id) {
         CollectionItem item = CollectionItem.findById(id);
         notFoundIfNull(item);
         render(item);
     }
+    
+    public static void itemsWithTags(String ...tags) {
+        List<CollectionItem> items = new ArrayList<>();
+        if(!CollectionItem.findAllTaggedWith(tags).isEmpty())
+            items.addAll(CollectionItem.findAllTaggedWith(tags));
+        render(items,tags);
+    }
 
+    public static void itemsWithTag(String tag) {
+        List<CollectionItem> items = CollectionItem.findAllTaggedWith(tag);
+        if(items.isEmpty())
+            items = new ArrayList<>();
+        render(items,tag);
+    }
+    
+    public static void itemsWithCategory(String cat) {
+        Category category = Category.find("name", cat).first();
+        notFoundIfNull(category);
+        List<CollectionItem> items = CollectionItem.findWithCategory(category);
+        if(items==null || items.isEmpty())
+            items = new ArrayList<>();
+        render(items,category);
+    }
+
+    
     /**
      * Render collection icon.
      *
@@ -87,6 +103,7 @@ public class Collections extends Controller {
     
     public static void renderCollectionItemIcon(Long id) {
         CollectionItem ci = CollectionItem.findById(id);
+        Logger.info(" item : %s , icon: %s  -  %s", ci.name , ci.icon.getFile().getName() , ci.icon.exists());
         if (ci == null || ci.icon == null || !ci.icon.exists()) {
             renderBinary((VirtualFile.fromRelativePath(Constants.itemNoImagePath)).inputstream());
         }

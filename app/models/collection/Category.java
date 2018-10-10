@@ -52,9 +52,10 @@ public class Category extends Model {
     public List<Category> getChain(){
         List<Category> chain = new ArrayList<>();
         Category c = this;
-        while(c!=null) {
-            chain.add(0, c);
+        chain.add(c);
+        while(!c.isRoot()) {
             c=c.parent;
+            chain.add(0, c);
         }
         return chain;
     }

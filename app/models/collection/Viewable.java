@@ -12,10 +12,7 @@ import models.users.User;
  * @author arman
  *
  */
+//TODO: Implement it
 public interface Viewable {
-    public Set<User> getLikers();
 
-    public void like(User liker);
-
-    public void dislike(User liker);
 }

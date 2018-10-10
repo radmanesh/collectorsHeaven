@@ -1,0 +1,40 @@
+#{extends 'main.html' /}
+#{set title:'حستجو با برچسب' /}
+
+#{set 'moreStyles'}
+<style>
+</style>
+#{/set}
+
+<section id="cb-portfolio-1-4" class="cb-portfolio-block cb-portfolio-1-4">
+  <div class="cb-portfolio4 items-portfolio">
+    <div class="container">
+      <div class="intro">
+        <h3>آیتم‌ها با برچسب <code>&{tag}</code></h3>
+      </div>
+      <div class="row nomargin">
+      #{list items}
+        <div class="col-md-4">
+          <div class="content collection-item">
+            <span class="item-favorites"><i class="fa fa-heart text-danger"></i> ۷۵</span>
+            <a href="@{Collections.showItem(_?.id)}" class="overlay"> <span class="ov-col-title">${_?.name}</span> </a>
+            <img src="@{Collections.renderCollectionItemIcon(_?.id)}" alt="Portfolio">
+            <div class="item-info">
+              <h6 class="text-center">${_?.name}</h6>
+              <span class=""><i class="fa fa-site-map"></i> ${_?.category?.name}</span>
+              <div class="tags-container">
+                #{list item?.tags}
+                <a href="@{Collections.itemsWithTag(_?.name)}"><span class="badge badge-dark">${_?.name}</span></a>
+                #{/list}
+              </div>
+            </div>
+            <div class="dealer-info">
+              <a href="#">${_?.itemOwner?.getDisplayName()} </a>
+            </div>
+          </div>
+        </div>
+      #{/list}
+      </div>
+    </div>
+  </div>
+</section>

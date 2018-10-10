@@ -6,50 +6,77 @@
 </style>
 #{/set}
 
-#{set select2Enabled:"true"  /}
-
-
-
-<h2 class="text-center">${item?.name}</h2>
-<h4 class="text-center"><small>by </small>${item?.itemOwner?.name}</h4>
-
-<div class="category-container">
-  <ul class="list-inline">
-  #{list item?.category?.getChain()}
-    <li>&{_?.name} </li>
-  #{/list}
-  </ul>
-</div>
-
-<div class="tags-container">
-  #{list item?.tags}
-  <span class="badge badge-dark">${_?.name}</span>
-  #{/list}
-</div>
-
-<img src="@{Collections.renderCollectionItemIcon(item?.id)}" alt="" class="collection-icon" />
-<p>${item?.description?.raw()}</p>
-<hr />
-<div class="row">
-  <div class="col-md-4">
-    Creation date: ${item?.creationDate}
-  </div>
-  <div class="col-md-4">
-    Condition: &{item?.condition}
-  </div>
-  <div class="col-md-4">
-    Material: ${item?.mainMaterial}
-  </div>
-</div>
-#{if item?.hasImage()}
-  #{list items:item?.images , as: 'img'}
-  <div class="item-icon-container">
-    <img src="@{Collections.renderCollectionItemIcon(item?.id,img_index-1)}" alt="" class="collection-item-icon" />
-    <div class="img-controld btn-group" role="group" aria-label="Basic example">
-      <a type="button" href="" class="btn btn-primary">View</a>
-      <a type="button" href="" class="btn btn-secondary">Edit</a>
-      <a type="button" href="" class="btn btn-danger">Delete</a>
+<section id="cb-header-1-24" class="cb-header-block cb-header-1-24">
+  <div class="cb-header24">
+    <div class="overlay">
+      <div class="container  h-100">
+        <div class="row h-100">
+          <div class="content w-100 h-100 d-flex flex-column justify-content-center align-items-center">
+            <h1>${item?.name}</h1>
+            <h4 class="text-center"><small>by </small>${item?.itemOwner?.name}</h4>
+            <div>${item?.description?.raw()}</div>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+              #{list item?.category?.getChain()}
+                <li class='breadcrumb-item ${_isLast ?" active &#039; area-current= &#039;page":""}'><a href="@{Collections.itemsWithCategory(_?.name)}">&{_?.name} </a></li>
+              #{/list}
+              </ol>
+            </nav>
+            <div class="buttons w-100 d-flex justify-content-center align-items-center flex-sm-row flex-column justify-content-sm-center align-items-sm-center">
+              #{list item?.tags}
+                <span class="badge badge-dark"></span>
+                <a class="btn btn-xs btn-link" href="@{Collections.itemsWithTag(_?.name)}"><span class="badge badge-info">${_?.name}</span></a>
+              #{/list}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  #{/list}
-#{/if}
+</section>
+<div class="row">
+  <div class="col-md-4">
+    Creation date: <strong>${item?.creationDate}</strong>
+  </div>
+  <div class="col-md-4">
+    Condition: <strong>&{item?.condition}</strong>
+  </div>
+  <div class="col-md-4">
+    Material: <strong>${item?.mainMaterial}</strong>
+  </div>
+</div>
+<section id="cb-gallery-1-2" class="cb-gallery-block cb-gallery-1-2" data-pg-collapsed>
+  <div class="cb-gallery2">
+    <div class="gallery2_container">
+      <div class="gallery2_trig gallery2_trig_col_2">
+        <div class="gallery-header">
+          <div class="title">
+            <h1>تصاویر</h1>
+          </div>
+        </div>
+        <div class="row">
+          #{if item?.hasImage()}
+            #{list items:item?.images , as: 'img'}
+              <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="gallery2_trig_wrap">
+                  <div class="gallery2_trig_img">
+                    <img src="@{Collections.renderCollectionItemIcon(item?.id,img_index-1)}" alt="" class="collection-item-icon" />
+                  </div>
+                  <div class="gallery2_trig_txt gallery2_trig_txt_col_2">
+                    <div class="gallery2_trig_btn">
+                      <a href="#" data-toggle="modal" data-slide-to="0" data-backdrop="true">بزرگنمایی</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            #{/list}
+          #{/if}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+

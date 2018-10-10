@@ -96,6 +96,118 @@ public class Collectors extends Controller {
         notFoundIfNull(item);
         render(item);
     }
+    
+    /**
+     * Creates the collection.
+     */
+    public static void createCollection() {
+        if (request.method.equalsIgnoreCase("post")) {
+            Collection collection = new Collection();
+            collection.edit(params.getRootParamNode(), "collection");
+            validation.valid(collection);
+            if (Validation.hasErrors()) {
+                Validation.keep();
+                params.flash();
+                flash.error("flash.error.invalid.args");
+                render(collection);
+            }
+            collection.save();
+            editCollection(collection.id);
+        }
+        else {
+            render();
+        }
+    }
+    
+    /**
+     * Edits the collection.
+     *
+     * @param id
+     *            the id
+     */
+    public static void editCollection(Long id) {
+        Collection collection = Collection.findById(id);
+        notFoundIfNull(collection);
+        render(collection);
+        // if(request.isNew) {
+        // render(collection);
+        // }
+        // collection.edit(params.getRootParamNode(), "collection");
+        // validation.valid(collection);
+        // if(validation.hasErrors()) {
+        // validation.keep();
+        // params.flash();
+        // flash.error("flash.error.invalid.args");
+        // render(collection);
+        // }
+        // collection.save();
+        // flash.success("flash.success");
+        // index();
+    }
+
+    /**
+     * Update collection.
+     *
+     * @param id
+     *            the id
+     */
+    public static void updateCollection(Long id) {
+        Collection collection = Collection.findById(id);
+        notFoundIfNull(collection);
+        collection.edit(params.getRootParamNode(), "collection");
+        String[] tags = params.getAll("collection.tags");
+        Logger.info("%s", tags.length);
+        if (tags != null && tags.length > 0) {
+            for (String t : tags) {
+                if (t.trim().length() > 0) {
+                    collection.tags.add(Tag.findOrCreateByName(t));
+                }
+            }
+        }
+        validation.valid(collection);
+        if (Validation.hasErrors()) {
+            Validation.keep();
+            params.flash();
+            flash.error("flash.error.invalid.args");
+            renderTemplate("Collectors/editCollection", collection);
+        }
+        collection.save();
+        flash.success("flash.success");
+        index();
+    }
+    
+    /**
+     * Delete collection.
+     *
+     * @param id
+     *            the id
+     */
+    public static void deleteCollection(Long id) {
+        render();
+    }
+
+    /**
+     * Show collection.
+     *
+     * @param id
+     *            the id
+     */
+    public static void showCollection(Long id) {
+        Collection collection = Collection.findById(id);
+        render(collection);
+    }
+
+    /**
+     * Remove item from collection.
+     *
+     * @param itemId
+     *            the item id
+     * @param CollectionId
+     *            the collection id
+     */
+    public static void removeItemFromCollection(Long itemId, Long CollectionId) {
+        render();
+    }
 
 
 }
