@@ -12,8 +12,6 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import models.collection.Commentable;
-import models.collection.Likeable;
 import models.users.User;
 import play.data.validation.Required;
 import play.db.jpa.Model;
@@ -22,8 +20,7 @@ import play.db.jpa.Model;
 @Entity
 public class Comment<T extends Commentable> extends Model implements Commentable, Likeable {
 
-    @ManyToOne
-    public T target;
+    //public T target;
 
     @Required
     @ManyToOne
@@ -48,13 +45,13 @@ public class Comment<T extends Commentable> extends Model implements Commentable
     @OneToMany
     public Set<User> likers = new HashSet<>();
 
-    public Comment(T target, User author, String content) {
-        this.target = target;
-        this.author = author;
-        this.content = content;
-        this.postedAt = new Date();
-        comments = new ArrayList<Comment>();
-    }
+//    public Comment(T target, User author, String content) {
+//        this.target = target;
+//        this.author = author;
+//        this.content = content;
+//        this.postedAt = new Date();
+//        comments = new ArrayList<Comment>();
+//    }
 
     public Comment(Comment parent, User author, String content) {
         this.parent = parent;
@@ -88,11 +85,11 @@ public class Comment<T extends Commentable> extends Model implements Commentable
         }
     }
 
-    public Commentable getTarget() {
-        if (target != null)
-            return target;
-        return getRoot().target;
-    }
+//    public Commentable getTarget() {
+//        if (target != null)
+//            return target;
+//        return getRoot().target;
+//    }
 
     public List<Comment> allDescendantComments() {
         List<Comment> allComments = new ArrayList<Comment>();

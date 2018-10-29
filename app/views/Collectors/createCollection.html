@@ -36,7 +36,7 @@
   #{field 'collection.tags'}
     <select name="${field.name}" id="${field.id}" class="custom-select custom-tag" multiple="multiple"  >
       <option selected value>Please select tags</option>
-        #{list models.collection.Tag.find("select distinct t.name from Tag t").fetch() }
+        #{list models.cms.Tag.find("select distinct t.name from Tag t").fetch() }
           <option value="${_}">${_}</option> 
         #{/list}
     </select>    

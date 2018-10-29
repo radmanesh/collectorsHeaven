@@ -42,7 +42,7 @@
   #{field 'collection.tags'}
     <select name="${field.name}" id="${field.id}" class="custom-select custom-tag" multiple="multiple">
       <option selected value>Please select tags</option>
-      #{list models.collection.Tag.findAll()}
+      #{list models.cms.Tag.findAll()}
         <option value="${_}" ${collection?.tags?.contains(_) ? 'selected' : ''}>${_}</option>
       #{/list}
     </select>    

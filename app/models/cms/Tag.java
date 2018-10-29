@@ -1,7 +1,7 @@
 /*
  * 
  */
-package models.collection;
+package models.cms;
 
 import java.util.List;
 import java.util.Map;
@@ -24,7 +24,8 @@ public class Tag extends Model implements Comparable<Tag> {
     public static Tag findOrCreateByName(String name) {
         Tag tag = Tag.find("name", name).first();
         if (tag == null) {
-            return new Tag(name).save();
+            tag = new Tag(name);
+            tag.save();
         }
         return tag;
     }

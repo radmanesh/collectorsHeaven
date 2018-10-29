@@ -1,4 +1,4 @@
-package models.collection;
+package models.cms;
 
 import play.*;
 import play.data.validation.Required;

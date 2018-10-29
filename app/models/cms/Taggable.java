@@ -1,7 +1,7 @@
 /**
  * 
  */
-package models.collection;
+package models.cms;
 
 import java.util.List;
 import java.util.Set;

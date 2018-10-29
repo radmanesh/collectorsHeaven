@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import models.FileAttachment;
+import models.cms.Tag;
+import models.cms.Taggable;
 import models.users.Collector;
 import play.data.validation.MaxSize;
 import play.db.jpa.Blob;

@@ -1,10 +1,11 @@
 package controllers.collector;
 
+import java.util.HashSet;
 import java.util.List;
 
+import models.cms.Tag;
 import models.collection.Collection;
 import models.collection.CollectionItem;
-import models.collection.Tag;
 import play.Logger;
 import play.data.Upload;
 import play.data.validation.Validation;
@@ -31,7 +32,10 @@ public class Collectors extends Controller {
             }
             String[] tags = params.getAll("item.tags");
             if (tags != null && tags.length > 0) {
+                if(item.tags == null)
+                    item.tags = new HashSet<>();
                 for (String t : tags) {
+					Logger.info("tag: %s",t);
                     if (t.trim().length() > 0) {
                         item.tags.add(Tag.findOrCreateByName(t));
                     }

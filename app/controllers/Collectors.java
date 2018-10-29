@@ -14,9 +14,9 @@ import java.util.Map;
 import org.apache.commons.lang.NullArgumentException;
 
 import models.FileAttachment;
+import models.cms.Tag;
 import models.collection.Collection;
 import models.collection.CollectionItem;
-import models.collection.Tag;
 import models.collection.json.JqueryFileInput;
 import play.Logger;
 import play.data.Upload;

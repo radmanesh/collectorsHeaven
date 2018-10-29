@@ -46,7 +46,7 @@
     <label class="col-sm-2 col-form-label" for="${field.id}">&{field.name}</label>
     <div class=" col-sm-10">
       <select name="${field.name}" id="${field.id}" class="form-control tags-select select2-multiple" multiple="multiple" data-tags="true" data-allow-clear="true" data-placeholder="Please select tags">
-        #{list models.collection.Tag.find("select distinct t.name from Tag t").fetch() }
+        #{list models.cms.Tag.find("select distinct t.name from Tag t").fetch() }
           <option value="${_}">${_}</option>
         #{/list}
       </select>

@@ -62,7 +62,7 @@
     <label class="col-sm-2 col-form-label" for="${field.id}">&{field.name}</label>
     <div class=" col-sm-10">
       <select name="${field.name}" id="${field.id}" class="form-control tags-select select2-multiple" multiple="multiple" data-tags="true" data-allow-clear="true" data-placeholder="Please select tags">
-        #{list models.collection.Tag.findAll() }
+        #{list models.cms.Tag.findAll() }
           <option value="${_}" ${item?.tags?.contains(_) ? 'selected' : ''}>${_}</option>
         #{/list}
       </select>

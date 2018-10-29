@@ -20,6 +20,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import models.FileAttachment;
+import models.cms.Commentable;
+import models.cms.Likeable;
+import models.cms.Tag;
+import models.cms.Taggable;
+import models.cms.Viewable;
 import models.users.Collector;
 import models.users.User;
 import play.data.validation.MaxSize;
@@ -27,7 +32,7 @@ import play.db.jpa.Blob;
 import play.db.jpa.Model;
 
 @Entity
-public class CollectionItem extends Model implements Taggable<CollectionItem>, Likeable, Viewable, Commentable {
+public class CollectionItem extends Model implements Taggable<CollectionItem>, Likeable, Viewable, Commentable<CollectionItem> {
 
     @ManyToOne
     public Collector itemOwner;
@@ -84,7 +89,7 @@ public class CollectionItem extends Model implements Taggable<CollectionItem>, L
      * @see models.collection.Commentable#getComments()
      */
     @Override
-    public List<? extends Commentable> getComments() {
+    public List<CollectionItem> getComments() {
         // TODO Auto-generated method stub
         return null;
     }
@@ -94,7 +99,7 @@ public class CollectionItem extends Model implements Taggable<CollectionItem>, L
      * @see models.collection.Commentable#comment(models.users.User, java.lang.String)
      */
     @Override
-    public <T extends Commentable> T comment(User writer, String message) {
+    public CollectionItem comment(User writer, String message) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -129,25 +134,6 @@ public class CollectionItem extends Model implements Taggable<CollectionItem>, L
 
     }
 
-    /*
-     * (non-Javadoc)
-     * @see models.collection.Taggable#getTags()
-     */
-    @Override
-    public Set<Tag> getTags() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see models.collection.Taggable#getName()
-     */
-    @Override
-    public String getName() {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     public static List<CollectionItem> findAllTaggedWith(String tag) {
         return CollectionItem.find("select distinct ci from CollectionItem ci join ci.tags as t where t.name = ?1", tag).fetch();
@@ -172,5 +158,16 @@ public class CollectionItem extends Model implements Taggable<CollectionItem>, L
         return CollectionItem.find(q, cat).fetch();
     }
 
+    /* (non-Javadoc)
+     * @see models.cms.Taggable#getTags()
+     */
+    @Override
+    public Set<Tag> getTags() {
+        return tags;
+    }
 
+    @Override
+    public String getName() {
+        return name;
+    }
 }
